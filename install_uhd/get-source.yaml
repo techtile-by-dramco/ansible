@@ -1,0 +1,21 @@
+---
+- name: Clone the uhd repository
+  ansible.builtin.git:
+    repo: https://github.com/EttusResearch/uhd.git
+    dest: "/home/pi/uhd"
+    clone: yes
+    update: yes
+- name: Set uhd directory
+  set_fact:
+    uhd_repo_dir: "/home/pi/uhd"
+
+- name: Clone the volk repository
+  ansible.builtin.git:
+    repo: https://github.com/gnuradio/volk.git
+    dest: "/home/pi/volk"
+    clone: yes
+    update: yes
+    recursive: yes
+- name: Set volk directory
+  set_fact:
+    volk_repo_dir: "/home/pi/volk"

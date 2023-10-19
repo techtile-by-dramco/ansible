@@ -1,0 +1,66 @@
+---
+- name: Update, upgrad and install apt packages
+  become: yes  
+  block:
+    - name: Run apt update with allow-releaseinfo-change
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Run apt upgrade
+      ansible.builtin.apt:
+        upgrade: yes
+    
+    - name: Install required packages
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        state: present
+        force_apt_get: yes
+        update_cache: yes
+
+- name: Checkout uhd to version v4.1.0.4
+  command:
+    chdir: "{{ uhd_repo_dir }}"
+    cmd: git checkout v4.1.0.4
+
+- name: Create a build directory
+  ansible.builtin.file:
+    path: /home/pi/uhd/host/build
+    state: directory
+  
+- name: Mark build directory
+  set_fact: 
+    uhd_build_dir: "/home/pi/uhd/host/build"
+
+- name: Run cmake, make and test
+  ansible.builtin.shell: 
+    cmd: |
+      cmake -DCMAKE_INSTALL_PREFIX=/usr/local ../ -DENABLE_C_API=ON -DENABLE_PYTHON_API=ON &&
+      make -j6 &&
+      make test
+    chdir: "{{ uhd_build_dir }}"
+
+- name: Run install, idconfig and images loader
+  ansible.builtin.shell: 
+    cmd: | 
+      make install &&
+      ldconfig && 
+      uhd_images_downloader 
+    chdir: "{{ uhd_build_dir }}"
+  become: yes
+  become_method: sudo
+
+- name: Configure USB
+  ansible.builtin.shell: 
+    cmd: | 
+      cp uhd-usrp.rules /etc/udev/rules.d/ &&
+      udevadm control --reload-rules && 
+      udevadm trigger 
+    chdir: "/home/pi/uhd/host/utils"
+  become: yes
+  become_method: sudo
+
+- name: Validate if UHD installed correctely
+  ansible.builtin.shell: 
+    cmd: uhd_usrp_probe
+  
