@@ -1,0 +1,29 @@
+---
+- name: Run receiver test script
+  hosts: rpis
+  remote_user: pi
+  gather_facts: no
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Check PYTHONPATH environment variable
+      shell: echo ${PYTHONPATH}
+      register: result
+      changed_when: false
+      
+    - name: Show output
+      debug:
+        msg: "The value of PYTHONPATH is {{ result.stdout }}"
+
+    - name: Execute receiver script
+      ansible.builtin.command:
+        cmd: python3 test_receiver.py
+        chdir:  /home/pi/client
+      register: import_output
+      
+    - name: show deug msg 
+      debug:
+        msg: "{{ import_output.stdout }}"
