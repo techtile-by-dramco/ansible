@@ -1,0 +1,10 @@
+servers:
+- connections: '8'
+  name: segmentB
+  port: 6555
+- connections: '6'
+  name: segmentC
+  port: 7555
+- connections: '8'
+  name: segmentE
+  port: 9555

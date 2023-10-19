@@ -1,0 +1,14 @@
+version: "3.1"
+services:
+{% for service_name, service_data in services.items() %}
+  {{ service_name }}:
+    image: {{ service_data.image }}
+    command: [{% for cmd in service_data.command %}"{{ cmd }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+    ports:
+{% for port in service_data.ports %}
+      - "{{ port }}"
+{% endfor %}
+    volumes:
+      - ./data:/usr/src/server/data
+{% endfor %}
+

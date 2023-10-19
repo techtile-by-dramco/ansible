@@ -1,0 +1,33 @@
+version: "3.1"
+services:
+
+  segmentA:
+    image: central-server
+    command: ["python3", "-u", "central_server.py", "--port", "5555", "--connections", "4"]
+    ports:
+
+      - "5555-5557:5555-5557"
+
+    volumes:
+      - ./data:/usr/src/server/data
+
+  segmentD:
+    image: central-server
+    command: ["python3", "-u", "central_server.py", "--port", "8555", "--connections", "8"]
+    ports:
+
+      - "8555-8557:8555-8557"
+
+    volumes:
+      - ./data:/usr/src/server/data
+
+  segmentF:
+    image: central-server
+    command: ["python3", "-u", "central_server.py", "--port", "10555", "--connections", "8"]
+    ports:
+
+      - "10555-10557:10555-10557"
+
+    volumes:
+      - ./data:/usr/src/server/data
+
