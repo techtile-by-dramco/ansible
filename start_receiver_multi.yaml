@@ -1,0 +1,36 @@
+---
+- name: Create YAML server config file
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Overwrite YAML file with initial data
+      copy:
+        content: |
+          servers: 
+        dest: "{{ playbook_dir }}/configs/server_config.yaml"
+    - name: Make sure /tmp exits in /configs dir
+      file:
+        path: "{{ playbook_dir }}/configs/tmp"
+        state: directory
+
+- name: Start wallEast receiver
+  hosts: multiON
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/multiON.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for wallEast
+      include_tasks: start_receiver.yaml
+
+- name: Copy config file to server
+  hosts: server
+  tasks:
+    - name: Copy server YAML configuration file
+      ansible.builtin.template:
+        src: configs/server_config.yaml
+        dest: /home/haorui/server/server_config.yaml

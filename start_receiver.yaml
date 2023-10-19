@@ -1,0 +1,38 @@
+---
+- name: Ping remote hosts to check connection
+  ping:
+
+- debug:
+    msg: "Use client port {{ port }}"
+
+- name: Execute receiver script in the background
+  ansible.builtin.shell:
+    cmd: "nohup python3 rpi_client.py --port {{ port }} --channels {{ channels }} --rate {{ rate }} --freq {{ freq }} --gain {{ gain }} > log.txt 2>&1 &"
+    # cmd: "nohup python3 rpi_client.py > log.txt 2>&1 &"
+    # cmd: "python3 rpi_client.py --port {{ port }} --channels {{ channels }} --rate {{ rate }} --freq {{ freq }} --gain {{ gain }}"
+    chdir: /home/pi/client
+    executable: /bin/bash
+
+- name: Count hosts in the group
+  run_once: true
+  delegate_to: localhost
+  set_fact:
+    host_config: |
+      name : "{{ current_group }}"
+      group_count:  "{{ ansible_play_batch | length }}"
+
+- name: Create individual YAML config files
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/configs/host_config.yaml.j2"
+    dest: "{{ playbook_dir }}/configs/tmp/{{ current_group }}_config.yaml"
+  when: current_group != 'rescue'
+
+- name: Append host_config to server_config
+  run_once: true
+  delegate_to: localhost
+  shell: "cat configs/tmp/{{ current_group }}_config.yaml >> configs/server_config.yaml"
+  args:
+    executable: /bin/bash
+  when: current_group  != 'rescue'

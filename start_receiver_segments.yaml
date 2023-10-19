@@ -1,0 +1,129 @@
+---
+- name: Create YAML server config file
+  hosts: localhost
+  tags: ['segmentA','segmentB','segmentC','segmentD','segmentE','segmentF','segmentG']
+  gather_facts: false
+  tasks:
+    - name: Overwrite YAML file with initial data
+      copy:
+        content: |
+          servers: 
+        dest: "{{ playbook_dir }}/configs/server_config.yaml"
+    - name: Make sure /tmp exits in /configs dir
+      file:
+        path: "{{ playbook_dir }}/configs/tmp"
+        state: directory
+
+- name: Start receiver in a loop
+  hosts: segmentA
+  tags: ['segmentA']
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/segmentA.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Start receiver in a loop
+  hosts: segmentB
+  tags: ['segmentB']
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/segmentB.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Start receiver in a loop
+  hosts: segmentC
+  tags: ['segmentC']
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/segmentC.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Start receiver in a loop
+  hosts: segmentD
+  tags: ['segmentD']
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/segmentD.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Start receiver in a loop
+  hosts: segmentE
+  tags: ['segmentE']
+  vars_files:
+    - "inventory/group_vars/segmentE.yaml"
+  gather_facts: no
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Start receiver in a loop
+  hosts: segmentF
+  tags: ['segmentF']
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/segmentF.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Start receiver in a loop
+  hosts: segmentG
+  tags: ['segmentG']
+  gather_facts: no
+  vars_files:
+    - "inventory/group_vars/segmentG.yaml"
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for each group
+      include_tasks: start_receiver.yaml
+
+- name: Copy config file to server
+  hosts: server
+  tags: ['segmentA','segmentB','segmentC','segmentD','segmentE','segmentF','segmentG']
+  tasks:
+    - name: Copy server YAML configuration file
+      ansible.builtin.template:
+        src: configs/server_config.yaml
+        dest: /home/haorui/server/server_config.yaml

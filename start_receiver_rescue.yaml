@@ -1,0 +1,16 @@
+---
+- name: Start receiver on a pi
+  hosts: rpis
+  vars_files:
+    - "inventory/group_vars/extra.yaml"
+  gather_facts: no
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Start receivers for wallEast
+      include_tasks: start_receiver.yaml
+
+
