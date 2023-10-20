@@ -24,13 +24,8 @@
 - name: Copy file to server
   hosts: server 
   tasks:
-    - name: Ensure server directory exists
-      ansible.builtin.file:
-        path: /home/haorui/server
-        state: directory
-        mode: '0755'
-
     - name: Copy the server file
       copy:
-        src: src/server/central_server.py 
-        dest: /home/haorui/server/central_server.py 
+        src: src/server 
+        dest: /home/techtile/server
+        directory_mode: yes
