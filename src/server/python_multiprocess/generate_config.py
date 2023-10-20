@@ -10,6 +10,7 @@ port_match_wall = {
     "segmentE": 9555,
     "segmentF": 10555,
     "segmentG": 11555,
+    "multiON": 5555,
 }
 
 try:

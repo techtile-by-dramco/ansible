@@ -16,9 +16,8 @@ Layout of Current Rpis (Red tile: inaccessible, Green tile: accessible and confi
 ![layour](./Layout.png)
 
 ## Example server/client files
-* `server/`: Source files in Python for techtile server, starting PUSH, PUB and ROUTER zeroMQ servers to distributing tasks, receiving results and sending killing message to clients(rpis). Three alternatives to start the server.
+* `server/`: Source files in Python for techtile server, starting PUSH, PUB and ROUTER zeroMQ servers to distributing tasks, receiving results and sending killing message to clients(rpis). Three alternatives to start the server. The task asks each Rpis to start receiving for 5 seconds, and send the 5s I/Q data back to the server. If needs longer receiving time, you can change the `duration` value in the `central_server` scripts in each method. The data sent back by all Rpis will be saved in `data/` under the same directory.
 * `client/`: Source files in Python for all rpis, connecting to each zeroMQ server for receiving tasks, sending results and receiving killing signals. 
-
 To copy all files to rpis and the server, run:
 ```
 ansible-playbook -i inventory/hosts.yaml copy-scripts.yaml
@@ -37,7 +36,7 @@ To only copy to a specific Rpis host (A01 for example):
 ansible-playbook -i inventory/hosts.yaml -l A01 copy-scripts.yaml
 ``` 
 
-## Start usrp receivers on Rpis
+## Start USRP receivers on Rpis
 There are few ways to start the receivers on Rpis
 ### Start receivers by wall
 By default, all Rpis on wallEast connect to zeroMQ servers binding port 5555-5557, all Rpis on wallWest connects to zeroMQ servers binding port 6555-6557. 
@@ -100,5 +99,49 @@ ansible-play -i inventory/hosts.yaml -l A01,B02,C11 start_receiver_rescue.yaml
 ```
 ansible-playbook -i inventory/hosts.yaml -l  A01,B02,C11 --extra-vars "port=6555" start_receiver_rescue.yaml
 ```
-**This command starts receivers on A01, B02 and C11, force them to listen to port 6555-6557. In this case, you need to add 3 to the connection value of `wallWest` or `segmentB` in  `server/server_config.yaml` on the server side.**
+**This command starts receivers on A01, B02 and C11, force them to listen to port 6555-6557. In this case, you need to add 3 to the connection value of `wallWest` or `segmentB` in `server/server_config.yaml` on the server side.**
 
+## Start server on Techtile server
+On Techtile server, `cd ~/server`
+**Server need to start after all the Rpis receiver starts and `server/server_config.yaml` is updated (Especially after some Rpis are rescued)**
+
+There are three ways to start the server and distribute the tasks to Rpis. `docker` and `python_multiprocess` start multiple server process, each process binds a port set depending based on the information in `server_config.yaml`.  
+The docker method is more robust than python multiprocessing.  
+
+`python_singleproc` only starts one process, and bind the ports 5555-5557, used for the case when receivers were started by `start_receiver_multi.yaml`.  
+
+## Starting server in `python_multiprocess`
+* Generate the config file based on `server_config.yaml`
+```
+python3 generate_config.py
+```
+* Start server
+```
+python3 central_server_multiprocessing.py
+```
+The number of processes started by this script depends on how many groups of Rpis were started. With `start_receiver_walls.yaml`, maximum 2 processes will be started, one for each wall. With `start_receiver_segments.yaml`, maximum 7 processes will be started, one for each segment.  
+
+The processes will distribute the receiving tasks 
+
+##  Starting server in `docker`
+Another way to handle multiprocessing is to start multiple docker containers, one for each process. This method is more robust than using the python multiprocess package.
+* Build the image for the server if it does not exist 
+```
+ docker build -t central-server .
+```
+* (Optional) You can push the image to a container registery if you want to use the same image on different host.
+* Generate docker compose file using `server_config.yaml`
+```
+python3 generate_compose.py
+```
+* Start the containers
+```
+docker-compose up
+```
+Same as ``python_multiprocess`, the number of containers started by this script depends on how many groups of Rpis were started. With `start_receiver_walls.yaml`, maximum 2 containers will be started, one for each wall; With `start_receiver_segments.yaml`, maximum 7 containers will be started, one for each segment.
+
+##  Starting server in `python_singleproc`
+This method only start a single server process, make the zeroMQ servers listen on port 5555-5557. This process is used in the case when using `start_receiver_multi.yaml` method. Just need to run:
+```
+python3 central_server.py
+```
