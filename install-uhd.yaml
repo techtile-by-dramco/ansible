@@ -36,7 +36,7 @@
       become: yes
     - name: Export neccessary paths
       lineinfile:
-        path: "~/.bashrc"
+        path: "~/.profile"
         line: "{{ item }}"
       loop:
         - 'export PATH=/home/pi/.local/bin:$PATH'
