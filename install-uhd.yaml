@@ -9,39 +9,39 @@
     - name: Gather Facts
       include_tasks: gather_facts.yaml
   tasks:
-  - name: Update apt package cache
-      ansible.builtin.apt:
+    - name: Update apt package cache
+      ansible.builtin.apt: 
         update_cache: yes
     - name: Upgrade all packages
-      ansible.builtin.apt:
+      ansible.builtin.apt: 
         upgrade: yes
-  - name: Install Lib uhd
-    apt:
-      name: libuhd-dev
-      state: present
-      force_apt_get: yes
-      update_cache: yes
-  - name: Install uhd host
-    apt:
-      name:  uhd-host
-      state: present
-      force_apt_get: yes
-      update_cache: yes
-    become: yes
-  - name: Install uhd Python
-    apt:
-      name:  python3-uhd
-      state: present
-      force_apt_get: yes
-      update_cache: yes
-    become: yes
-  - name: Export neccessary paths
-    lineinfile:
-      path: "~/.bashrc"
-      line: "{{ item }}"
-    loop:
-      - 'export PATH=/home/pi/.local/bin:$PATH'
-      - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
-      - 'export LD_LIBRARY_PATH=/usr/local/lib'
-      - 'export UHD_IMAGES_DIR=/usr/share/uhd/images'
+    - name: Install Lib uhd
+      apt:
+        name: libuhd-dev
+        state: present
+        force_apt_get: yes
+        update_cache: yes
+    - name: Install uhd host
+      apt:
+        name:  uhd-host
+        state: present
+        force_apt_get: yes
+        update_cache: yes
+      become: yes
+    - name: Install uhd Python
+      apt:
+        name:  python3-uhd
+        state: present
+        force_apt_get: yes
+        update_cache: yes
+      become: yes
+    - name: Export neccessary paths
+      lineinfile:
+        path: "~/.bashrc"
+        line: "{{ item }}"
+      loop:
+        - 'export PATH=/home/pi/.local/bin:$PATH'
+        - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
+        - 'export LD_LIBRARY_PATH=/usr/local/lib'
+        - 'export UHD_IMAGES_DIR=/usr/share/uhd/images'
 
