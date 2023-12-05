@@ -2,9 +2,8 @@
 - name: Check and install uhd
   hosts: rpis
   become: yes
+  serial: 0  # Run tasks in parallel for all hosts
   gather_facts: no
-  vars_files:
-    - install_uhd/packages.yaml
   pre_tasks:
     - name: Gather Facts
       include_tasks: gather_facts.yaml
