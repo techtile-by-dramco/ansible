@@ -8,8 +8,6 @@
     - name: Gather Facts
       include_tasks: gather_facts.yaml
   tasks:
-    - name: Reload bashrc
-      command: source ~/.bashrc
     - name: Execute receiver script in the background
       ansible.builtin.shell:
         cmd: "nohup python3 tx_waveforms.py -w const -f 910E6 -c 0 1 --wave-freq 0  --gain 100 -d 6"
