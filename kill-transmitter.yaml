@@ -1,0 +1,11 @@
+---
+- name: Kill Python script
+  hosts: rpis
+  gather_facts: no
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: gather_facts.yaml
+  tasks:
+    - name: Kill the background script process
+      command: pkill -f tx_waveforms.py
+      ignore_errors: yes
