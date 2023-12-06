@@ -12,4 +12,8 @@
         cmd: "{{ cmd }}"
         chdir: /home/pi/client
         executable: /bin/bash
+      register: command_output
+    - name: Display command output
+      ansible.builtin.debug:
+        var: command_output.stdout_lines
 # usage: ansible-playbook -i inventory/hosts.yaml -l rpis run_cmd.yaml -e "cmd='<your cmd>'"
