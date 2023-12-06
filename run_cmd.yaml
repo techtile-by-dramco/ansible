@@ -10,6 +10,6 @@
     - name: Run command in shell
       ansible.builtin.shell:
         cmd: "{{ cmd }}"
-      chdir: /home/pi/client
-      executable: /bin/bash
+        chdir: /home/pi/client
+        executable: /bin/bash
 # usage: ansible-playbook -i inventory/hosts.yaml -l rpis run_cmd.yaml -e "cmd='<your cmd>'"
