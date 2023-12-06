@@ -10,5 +10,5 @@
   tasks:
     - name: Run command in shell
       ansible.builtin.shell:
-      cmd: "{{ cmd }}"
+        cmd: "{{ cmd }}"
 # usage: ansible-playbook -i inventory/hosts.yaml -l rpis run_cmd.yaml -e "cmd=<your cmd>"
