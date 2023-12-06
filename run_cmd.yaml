@@ -1,7 +1,6 @@
 ---
 - name: Check and install uhd
   hosts: rpis
-  become: yes
   serial: 0 # Run tasks in parallel for all hosts
   gather_facts: no
   pre_tasks:
@@ -11,4 +10,6 @@
     - name: Run command in shell
       ansible.builtin.shell:
         cmd: "{{ cmd }}"
-# usage: ansible-playbook -i inventory/hosts.yaml -l rpis run_cmd.yaml -e "cmd=<your cmd>"
+      chdir: /home/pi/client
+      executable: /bin/bash
+# usage: ansible-playbook -i inventory/hosts.yaml -l rpis run_cmd.yaml -e "cmd='<your cmd>'"
