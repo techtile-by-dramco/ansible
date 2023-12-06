@@ -1,19 +1,12 @@
 ---
 - name: Check and install uhd
-  hosts: rpis
-  #serial: 0 # Run tasks in parallel for all hosts
-  gather_facts: no
-  # strategy: free
-  # pre_tasks:
-  #   - name: Gather Facts
-  #     include_tasks: gather_facts.yaml
   environment:
     PYTHONPATH: "/usr/local/lib/python3/dist-packages"
     UHD_IMAGES_DIR: "/usr/share/uhd/images" # no idea why we need to include this as it is defined .bashrc
   tasks:
     - name: Execute transmitter script in the background
       ansible.builtin.shell:
-        cmd: "nohup python3 tx_waveforms.py -w const -f 910E6 -c 0 1 --wave-freq 0  --gain 100 -d 60"
+        cmd: "nohup python3 tx_waveforms.py -w const -f 910E6 -c 0 1 --wave-freq 0  --gain 100 -d 60 > log.txt 2>&1 &"
         # cmd: "nohup python3 rpi_client.py > log.txt 2>&1 &"
         # cmd: "python3 rpi_client.py --port {{ port }} --channels {{ channels }} --rate {{ rate }} --freq {{ freq }} --gain {{ gain }}"
         chdir: /home/pi/client
