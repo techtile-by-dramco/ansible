@@ -1,14 +1,13 @@
 ---
 - name: Check and install uhd
   hosts: rpis
-  become: true  # Run the command with sudo privileges
   serial: 0 # Run tasks in parallel for all hosts
   gather_facts: no
   pre_tasks:
     - name: Gather Facts
       include_tasks: gather_facts.yaml
   tasks:
-    - name: Execute receiver script in the background
+    - name: Execute transmitter script in the background
       ansible.builtin.shell:
         cmd: "nohup python3 tx_waveforms.py -w const -f 910E6 -c 0 1 --wave-freq 0  --gain 100 -d 6"
         # cmd: "nohup python3 rpi_client.py > log.txt 2>&1 &"
@@ -18,4 +17,3 @@
     - name: Display command output
       ansible.builtin.debug:
         var: command_output.stdout_lines
-# usage: ansible-playbook -i inventory/hosts.yaml -l rpis run_cmd.yaml -e "cmd='<your cmd>'"
