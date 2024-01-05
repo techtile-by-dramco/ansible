@@ -147,14 +147,6 @@ all:
         G11:
     fail:
       hosts:
-        C02:
-        A12:
-        A13:
-        A14:
-        E11:
-        G12:
-        G13:
-        G14:
     wallEast:
       hosts:
         G01:
@@ -219,6 +211,9 @@ all:
         A03:
         A04:
         A11:
+        A12:
+        A13:
+        A14:
     segmentB:
       hosts: 
         B01:
@@ -232,6 +227,7 @@ all:
     segmentC:
       hosts:
         C01:
+        C02:
         C03:
         C04:
         C11:
@@ -254,6 +250,7 @@ all:
         E02:
         E03:
         E04:
+        E11:
         E12:
         E13:
         E14:
@@ -274,6 +271,9 @@ all:
         G03:
         G04:
         G11:
+        G12:
+        G13:
+        G14:
 
 
         
