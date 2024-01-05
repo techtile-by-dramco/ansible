@@ -180,6 +180,9 @@ all:
     wallWest:
       hosts:
         A11:
+        A12:
+        A13:
+        A14:
         B11:
         B12:
         B13:
@@ -192,6 +195,7 @@ all:
         D12:
         D13:
         D14:
+        E11:
         E12:
         E13:
         E14:
@@ -200,6 +204,9 @@ all:
         F13:
         F14:
         G11:
+        G12:
+        G13:
+        G14:
     rpis:
       children:
         wallEast:
