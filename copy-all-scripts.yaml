@@ -17,7 +17,7 @@
       ansible.builtin.copy:
         src: src/client/
         dest: /home/pi/client/
-        recursive: yes
+        #recursive: yes
 
 - name: Copy file to server
   hosts: server
