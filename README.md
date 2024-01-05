@@ -34,6 +34,13 @@ ansible-playbook -i inventory/hosts.yaml -l server copy-scripts.yaml
 To only copy to a specific Rpis host (A01 for example):
 ```
 ansible-playbook -i inventory/hosts.yaml -l A01 copy-scripts.yaml
+```
+To copy all files in src/client to all (or specific) Rpis host (A01 for example):
+```
+ansible-playbook -i inventory/hosts.yaml copy-all-scripts.yaml
+```
+```
+ansible-playbook -i inventory/hosts.yaml -l A01 copy-all-scripts.yaml
 ``` 
 
 ## Start USRP receivers on Rpis
