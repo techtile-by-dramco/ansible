@@ -49,4 +49,13 @@
         - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
         - 'export LD_LIBRARY_PATH=/usr/local/lib'
         #- 'export UHD_IMAGES_DIR=/usr/local/share/uhd/images'
+    - name: Configure USB
+      ansible.builtin.shell: 
+        cmd: | 
+          cp uhd-usrp.rules /etc/udev/rules.d/ &&
+          udevadm control --reload-rules && 
+          udevadm trigger 
+        chdir: "/home/pi/uhd/host/utils"
+      become: yes
+      become_method: sudo
 
