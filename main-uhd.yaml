@@ -1,6 +1,6 @@
 ---
 - name: Check and install uhd
-  hosts: tests
+  hosts: rpis
   gather_facts: no
   vars_files:
     - install_uhd/packages.yaml
