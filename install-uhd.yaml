@@ -27,6 +27,10 @@
         force_apt_get: yes
         update_cache: yes
       become: yes
+    - name: Install uhd images
+      ansible.builtin.shell:
+        cmd: "uhd_images_downloader"
+       become: yes
     - name: Install uhd Python
       apt:
         name:  python3-uhd
