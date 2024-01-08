@@ -15,6 +15,10 @@ The inventory defines different children groups of all hosts based on hosts loca
 Layout of Current Rpis (Red tile: inaccessible, Green tile: accessible and configured)
 ![layour](./Layout.png)
 
+## Install UHD on the RPIs
+**Note install-uhd.yaml is depreceated** use `main-uhd.yml`.
+
+
 ## Example server/client files
 * `server/`: Source files in Python for techtile server, starting PUSH, PUB and ROUTER zeroMQ servers to distributing tasks, receiving results and sending killing message to clients(rpis). Three alternatives to start the server. The task asks each Rpis to start receiving for 5 seconds, and send the 5s I/Q data back to the server. If needs longer receiving time, you can change the `duration` value in the `central_server` scripts in each method. The data sent back by all Rpis will be saved in `data/` under the same directory.
 * `client/`: Source files in Python for all rpis, connecting to each zeroMQ server for receiving tasks, sending results and receiving killing signals. 
