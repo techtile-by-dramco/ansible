@@ -42,5 +42,5 @@
         - 'export PATH=/home/pi/.local/bin:$PATH'
         - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
         - 'export LD_LIBRARY_PATH=/usr/local/lib'
-        - 'export UHD_IMAGES_DIR=/usr/local/share/uhd/images'
+        #- 'export UHD_IMAGES_DIR=/usr/local/share/uhd/images'
 
