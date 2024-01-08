@@ -30,8 +30,8 @@
     - name: Install uhd images
       ansible.builtin.shell:
         cmd: "uhd_images_downloader"
-       become: yes
-       tags:
+      become: yes
+      tags:
         - install_uhd_images
     - name: Install uhd Python
       apt:
