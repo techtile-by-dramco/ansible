@@ -40,8 +40,15 @@ def multi_usrp_tx(args):
     _amplitude = float(1/np.sqrt(2))
     _tone_freq = 0
     stream_args = uhd.usrp.StreamArgs('fc32', 'sc16')
-    stream_args.channels = args.channels
+    channels = args.channels
     _usrp = uhd.usrp.MultiUSRP(args.args)
+    for chan in channels:
+        _usrp.set_tx_rate(_rate, chan)
+        _usrp.set_tx_gain(args.gain, chan)
+        _usrp.set_tx_freq(args.f, chan)
+
+    stream_args.channels = args.channels
+    
     _streamer = _usrp.get_tx_stream(stream_args)
     
     tone_gen = ToneGenerator(_rate, _tone_freq, _amplitude)
