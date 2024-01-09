@@ -45,7 +45,7 @@ def multi_usrp_tx(args):
     for chan in channels:
         _usrp.set_tx_rate(_rate, chan)
         _usrp.set_tx_gain(args.gain, chan)
-        _usrp.set_tx_freq(args.f, chan)
+        _usrp.set_tx_freq(args.freq, chan)
 
     stream_args.channels = args.channels
     
