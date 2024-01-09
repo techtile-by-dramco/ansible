@@ -54,13 +54,14 @@ class WaveformGenerator:
         """ Here is where the action happens """
         metadata = uhd.types.TXMetadata()
         while self._run:
+            print(self._buffer.shape)
             # Give it a long-ish timeout so we don't have to throttle in here
             if self._streamer.send(self._buffer, metadata, 1.0) != len(self._buffer):
                 print("WARNING: Failed to transmit entire buffer in ToneGenerator!")
         # Send an EOB packet with a single zero-valued sample to close out TX
         metadata.end_of_burst = True
         self._streamer.send(
-            numpy.array([0], dtype=numpy.complex64), metadata, 0.1)
+            numpy.array([[0],[0]], dtype=numpy.complex64), metadata, 0.1)
 
 
 class ToneGenerator(WaveformGenerator):
