@@ -13,7 +13,7 @@ import time
 import argparse
 import numpy as np
 import uhd
-from uhd.usrp.cal.tone_gen import ToneGenerator
+from tone_gen import ToneGenerator
 #from uhd.usrp import dram_utils
 
 
