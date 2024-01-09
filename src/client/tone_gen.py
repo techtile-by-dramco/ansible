@@ -22,6 +22,7 @@ class WaveformGenerator:
         self._run = False
         self._thread = None
         self._buffer = numpy.tile(self._buffer, (2, 1))
+        print(self._buffer.shape)
 
     def set_streamer(self, streamer):
         """
@@ -54,7 +55,6 @@ class WaveformGenerator:
         """ Here is where the action happens """
         metadata = uhd.types.TXMetadata()
         while self._run:
-            print(self._buffer.shape)
             # Give it a long-ish timeout so we don't have to throttle in here
             if self._streamer.send(self._buffer, metadata, 1.0) != len(self._buffer):
                 print("WARNING: Failed to transmit entire buffer in ToneGenerator!")
