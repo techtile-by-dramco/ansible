@@ -8,6 +8,14 @@ all:
       ansible_host: techtile-server
       ip: 192.108.0.1  
       access_ip: 192.108.0.1  
+    T01:
+      ansible_host: rpi-t01.local
+    T02:
+      ansible_host: rpi-t02.local
+    T03:
+      ansible_host: rpi-t03.local
+    T04:
+      ansible_host: rpi-t04.local
     G01:
       ansible_host: rpi-g01.local
     G02:
@@ -128,7 +136,10 @@ all:
         Techtile:
     tests:
       hosts:
-        G01:
+        T01:
+        T02:
+        T03:
+        T04:
     multiON:
       hosts:
         A01:
@@ -211,6 +222,7 @@ all:
       children:
         wallEast:
         wallWest:
+        tests:
     segmentA:
       hosts:
         A01:
