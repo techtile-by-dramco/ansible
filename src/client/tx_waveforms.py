@@ -40,6 +40,8 @@ def multi_usrp_tx(args):
     multi_usrp based TX example
     """
     usrp = uhd.usrp.MultiUSRP(args.args)
+    usrp.set_clock_source("external")
+    usrp.set_time_source("external")
     if args.wave_freq == 0.0:
         desired_size = 1e6 # Just pick a value
     else:
