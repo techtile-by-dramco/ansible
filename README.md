@@ -18,6 +18,12 @@ Layout of Current Rpis (Red tile: inaccessible, Green tile: accessible and confi
 ## Install UHD on the RPIs
 **Note install-uhd.yaml is depreceated** use `main-uhd.yml`.
 
+##  Ping connection status
+
+```
+ansible-playbook -i inventory/hosts.yaml ping.yaml --extra-vars "tiles=<<NAME>>"
+```
+```<<NAME>>``` could be "wallEast", "wallWest", "ceiling", "floor" and "segment```<X>```"
 
 ## Example server/client files
 * `server/`: Source files in Python for techtile server, starting PUSH, PUB and ROUTER zeroMQ servers to distributing tasks, receiving results and sending killing message to clients(rpis). Three alternatives to start the server. The task asks each Rpis to start receiving for 5 seconds, and send the 5s I/Q data back to the server. If needs longer receiving time, you can change the `duration` value in the `central_server` scripts in each method. The data sent back by all Rpis will be saved in `data/` under the same directory.
