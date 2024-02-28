@@ -1,6 +1,6 @@
 ---
 - name: Check and install uhd
-  hosts: rpis
+  hosts: "{{ tiles }}"
   environment:
     PYTHONPATH: "/usr/local/lib/python3/dist-packages"
     UHD_IMAGES_DIR: "/usr/share/uhd/images" # no idea why we need to include this as it is defined .bashrc
