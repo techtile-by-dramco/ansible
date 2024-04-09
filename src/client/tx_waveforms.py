@@ -26,7 +26,7 @@ def parse_args():
     parser.add_argument("-r", "--rate", default=1e6, type=float)
     parser.add_argument("-d", "--duration", default=5.0, type=float)
     parser.add_argument("-c", "--channels", default=0, nargs="+", type=int)
-    parser.add_argument("-g", "--gain", type=int, default=10)
+    parser.add_argument("-g", "--gain", type=float, default=10.0)
     parser.add_argument("--wave-freq", default=1e4, type=float)
     parser.add_argument("--wave-ampl", default=0.3, type=float)
     parser.add_argument("--dram", action='store_true',
