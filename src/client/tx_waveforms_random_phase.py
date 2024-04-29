@@ -1,10 +1,11 @@
 """
+0. start server "random_phases_ZMQ"
 1. wait till random phase (step 2) or STOP (step 4) command of server
 2. change phase randomnly and transmit for 'duration' seconds at next PPS
 3. go to step 1.
 4. stop
 
---ip "IP OF ZMQ SERVER" s
+--ip "IP OF ZMQ SERVER"
 
 Server port: 5558 topic: phase commands: start or stop
 
