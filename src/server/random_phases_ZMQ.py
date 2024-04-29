@@ -19,7 +19,7 @@ def main():
             break
 
         # Publish the input on the "phase" topic
-        publisher.send_string("phase " + user_input)
+        publisher.send_multipart([b"phase", user_input.encode()])
 
     # Close the socket and context when done
     publisher.close()
