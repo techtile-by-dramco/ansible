@@ -64,6 +64,7 @@ def config_streamer(args, usrp):
     st_args.channels = args.channels
     return usrp.get_tx_stream(st_args)
 
+
 def send_waveform(usrp, waveform_proto,
                       duration,
                       freq,
@@ -148,8 +149,8 @@ def multi_usrp_tx(args):
     
     start = wait_till_go_from_server(args.ip)
     while(start):
-        send_waveform(data, args.duration, args.freq, args.rate,
-                        args.channels, args.gain, tx_streamer)
+        send_waveform(usrp, data, args.duration, args.freq,  tx_streamer, args.rate,
+                        args.channels, args.gain)
         start = wait_till_go_from_server(args.ip)
 
 def main():
