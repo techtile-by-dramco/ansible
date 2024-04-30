@@ -41,12 +41,8 @@ import zmq
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
 
-socket.connect(f"tcp://{ip}:{5558}")  # Connect to the publisher's address
 
-# Subscribe to topics
-socket.subscribe("phase")
-
-def wait_till_go_from_server(ip:str):
+def wait_till_go_from_server():
     """Wait till a message is received at ip:5557 for topic phase.
 
     Args:
@@ -148,12 +144,17 @@ def multi_usrp_tx(args):
         args.wave_ampl,
         desired_size=desired_size,
         max_size=(args.duration * args.rate))
+
+    socket.connect(f"tcp://{args.ip}:{5558}")  # Connect to the publisher's address
+
+    # Subscribe to topics
+    socket.subscribe("phase")
     
-    start = wait_till_go_from_server(args.ip)
+    start = wait_till_go_from_server()
     while(start):
         send_waveform(usrp, data, args.duration, args.freq,  tx_streamer, args.rate,
                         args.channels, args.gain)
-        start = wait_till_go_from_server(args.ip)
+        start = wait_till_go_from_server()
 
 def main():
     """TX samples based on input arguments"""
