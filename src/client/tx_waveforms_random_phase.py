@@ -52,6 +52,8 @@ def wait_till_go_from_server(ip:str):
     # Subscribe to topics
     socket.subscribe("phase")
     # Receives a string format message
+    topic = socket.recv_string()
+    # todo check topic
     cmd = socket.recv_string()
     print(cmd)
 
