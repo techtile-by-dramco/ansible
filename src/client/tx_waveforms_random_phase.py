@@ -108,7 +108,7 @@ def send_waveform(usrp, waveform_proto,
     if waveform_proto.shape[0] < len(channels):
         waveform_proto = np.tile(waveform_proto[0], (len(channels), 1))
     # multiply waveform_proto with fixed random phase per channel
-    waveform_proto *=  np.exp(1j*np.random.rand((len(channels), 1))*2*np.pi)
+    waveform_proto *=  np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
     # Now stream
     metadata = uhd.types.TXMetadata()
     if start_time is not None:
