@@ -7,7 +7,7 @@
   tasks:
     - name: Execute transmitter script in the background
       ansible.builtin.shell:
-        cmd: "nohup python3 tx_waveforms.py -w const -f {{ freq }} -c {{ channels }} --wave-freq 0  --gain {{ gain }} --wave-ampl 1.0 -d {{ duration }} > log.txt 2>&1 &"
+        cmd: "nohup python3 tx_waveforms_random_phase.py -w const -f {{ freq }} -c {{ channels }} --wave-freq 0  --gain {{ gain }} --wave-ampl 1.0 -d {{ duration }} --ip {{ ip }}> log.txt 2>&1 &"
         # cmd: "nohup python3 rpi_client.py > log.txt 2>&1 &"
         # cmd: "python3 rpi_client.py --port {{ port }} --channels {{ channels }} --rate {{ rate }} --freq {{ freq }} --gain {{ gain }}"
         chdir: /home/pi/client
