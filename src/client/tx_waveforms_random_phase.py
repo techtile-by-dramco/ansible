@@ -38,19 +38,21 @@ def parse_args():
 
 import zmq
 
+context = zmq.Context()
+socket = context.socket(zmq.SUB)
+
+socket.connect(f"tcp://{ip}:{5558}")  # Connect to the publisher's address
+
+# Subscribe to topics
+socket.subscribe("phase")
+
 def wait_till_go_from_server(ip:str):
     """Wait till a message is received at ip:5557 for topic phase.
 
     Args:
         ip (str): IP Address of the server
     """
-    context = zmq.Context()
-    socket = context.socket(zmq.SUB)
-
-    socket.connect(f"tcp://{ip}:{5558}")  # Connect to the publisher's address
-
-    # Subscribe to topics
-    socket.subscribe("phase")
+    
     # Receives a string format message
     topic = socket.recv_string()
     # todo check topic
