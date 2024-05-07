@@ -68,7 +68,7 @@ def tx(usrp, duration, tx_streamer, rate, channels):
     buffer_samps = tx_streamer.get_max_num_samps()
     samps_to_send = rate*duration
 
-    random_phases = np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
+    random_phases = 0.5*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
     buffer = np.tile(random_phases, buffer_samps)
 
