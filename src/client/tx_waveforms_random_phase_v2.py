@@ -53,7 +53,7 @@ def wait_till_go_from_server():
     return cmd.lower()=="start"
 
 def config_streamer(args, usrp):
-    st_args = uhd.usrp.StreamArgs("fc32", "sc16")
+    st_args = uhd.usrp.StreamArgs("fc32", "fc32")
     st_args.channels = args.channels
     return usrp.get_tx_stream(st_args)
 
@@ -77,14 +77,41 @@ def tx(usrp, duration, tx_streamer, rate, channels):
     tx_streamer.send(np.zeros((len(channels), 1), dtype=np.complex64), metadata)
     # Help the garbage collection
     return send_samps
+
+CLOCK_TIMEOUT = 1000  # 1000mS timeout for external clock locking
+
+def setup_clock(usrp, clock_src, num_mboards):
+    usrp.set_clock_source(clock_src)
+
+    print("Now confirming lock on clock signals...")
+    end_time = datetime.now() + timedelta(milliseconds=CLOCK_TIMEOUT)
+
+    # Lock onto clock signals for all mboards
+    for i in range(num_mboards):
+        is_locked = usrp.get_mboard_sensor("ref_locked", i)
+        while (not is_locked) and (datetime.now() < end_time):
+            time.sleep(1e-3)
+            is_locked = usrp.get_mboard_sensor("ref_locked", i)
+        if not is_locked:
+            print("Unable to confirm clock signal locked on board %d", i)
+            return False
+        else:
+            print("Clock signals are locked")
+    return True
+
+
+def setup_pps(usrp, pps):
+    """Setup the PPS source"""
+    usrp.set_time_source(pps)
+    return True
     
 def multi_usrp_tx(args):
     """
     multi_usrp based TX example
     """
     usrp = uhd.usrp.MultiUSRP(args.args)
-    usrp.set_clock_source("external")
-    usrp.set_time_source("external")
+    setup_clock(usrp, "external", usrp.get_num_mboards())
+    setup_pps(usrp, "external")
 
     for chan in args.channels:
         usrp.set_tx_rate(args.rate, chan)
