@@ -23,16 +23,11 @@ def parse_args():
     """Parse the command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--args", default="", type=str)
-    parser.add_argument(
-        "-w", "--waveform", default="sine",
-        choices=['sine', 'square', 'const', 'ramp'], type=str)
     parser.add_argument("-f", "--freq", type=float, required=True)
     parser.add_argument("-r", "--rate", default=1e6, type=float)
     parser.add_argument("-d", "--duration", default=1.0, type=float)
     parser.add_argument("-c", "--channels", default=0, nargs="+", type=int)
     parser.add_argument("-g", "--gain", type=float, default=10.0)
-    parser.add_argument("--wave-freq", default=1e4, type=float)
-    parser.add_argument("--wave-ampl", default=0.3, type=float)
     parser.add_argument("--ip", required=True, type=str)
     return parser.parse_args()
 
