@@ -75,7 +75,7 @@ def tx(usrp, duration, tx_streamer, rate, channels):
     send_samps = 0
 
     while send_samps < samps_to_send:
-        samples = tx_streamer.send(0.5*np.ones((len(channels), buffer_samps), dtype=np.complex64), metadata)
+        samples = tx_streamer.send(0.7*np.ones((len(channels), buffer_samps), dtype=np.complex64), metadata)
         send_samps += samples
     # Send EOB to terminate Tx
     metadata.end_of_burst = True
