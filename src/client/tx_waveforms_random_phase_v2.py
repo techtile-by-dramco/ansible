@@ -75,13 +75,12 @@ def tx(usrp, duration, tx_streamer, rate, channels):
     send_samps = 0
 
     while send_samps < samps_to_send:
-        samples = streamer.send(buffer, metadata)
+        samples = tx_streamer.send(buffer, metadata)
         send_samps += samples
     # Send EOB to terminate Tx
     metadata.end_of_burst = True
-    streamer.send(np.zeros((len(channels), 1), dtype=np.complex64), metadata)
+    tx_streamer.send(np.zeros((len(channels), 1), dtype=np.complex64), metadata)
     # Help the garbage collection
-    streamer = None
     return send_samps
     
 def multi_usrp_tx(args):
