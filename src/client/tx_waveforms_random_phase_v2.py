@@ -62,58 +62,20 @@ def config_streamer(args, usrp):
     st_args.channels = args.channels
     return usrp.get_tx_stream(st_args)
 
-
-def send_waveform(usrp, waveform_proto,
-                      duration,
-                      freq,
-                      streamer,
-                      rate=1e6,
-                      channels=(0,),
-                      gain=10,
-                      start_time=None):
-    """
-    TX a finite number of samples from the USRP
-    :param waveform_proto: numpy array of samples to TX
-    :param duration: time in seconds sending at constant random phase
-    :param freq: TX frequency (Hz)
-    :param rate: TX sample rate (Hz)
-    :param channels: list of channels to TX on
-    :param gain: TX gain (dB)
-    :param start_time: A valid TimeSpec object with the starting time. If
-                        None, then streaming starts immediately.
-    :param streamer: A TX streamer object. If None, this function will create
-                        one locally and attempt to destroy it afterwards.
-    :return: the number of transmitted samples
-    """
-    
-    
-
-    # Set up buffers and counters
-    buffer_samps = streamer.get_max_num_samps()
-    proto_len = waveform_proto.shape[-1]
-    if proto_len < buffer_samps:
-        waveform_proto = np.tile(waveform_proto,
-                                    (1, int(np.ceil(float(buffer_samps)/proto_len))))
-        proto_len = waveform_proto.shape[-1]
-    send_samps = 0
-    max_samps = int(np.floor(duration * rate))
-    if len(waveform_proto.shape) == 1:
-        waveform_proto = waveform_proto.reshape(1, waveform_proto.size)
-    if waveform_proto.shape[0] < len(channels):
-        waveform_proto = np.tile(waveform_proto[0], (len(channels), 1))
-    # multiply waveform_proto with fixed random phase per channel
-    waveform_proto *=  np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
-    # Now stream
+def tx(usrp, duration, tx_streamer, rate, channels):
     metadata = uhd.types.TXMetadata()
-    if start_time is not None:
-        metadata.time_spec = start_time
-        metadata.has_time_spec = True
-    while send_samps < max_samps:
-        real_samps = min(proto_len, max_samps-send_samps)
-        if real_samps < proto_len:
-            samples = streamer.send(waveform_proto[:, :real_samps], metadata)
-        else:
-            samples = streamer.send(waveform_proto, metadata)
+
+    buffer_samps = tx_streamer.get_max_num_samps()
+    samps_to_send = rate*duration
+
+    random_phases = np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
+
+    buffer = np.tile(random_phases, buffer_samps)
+
+    send_samps = 0
+
+    while send_samps < samps_to_send:
+        samples = streamer.send(buffer, metadata)
         send_samps += samples
     # Send EOB to terminate Tx
     metadata.end_of_burst = True
@@ -121,7 +83,7 @@ def send_waveform(usrp, waveform_proto,
     # Help the garbage collection
     streamer = None
     return send_samps
-
+    
 def multi_usrp_tx(args):
     """
     multi_usrp based TX example
@@ -136,16 +98,6 @@ def multi_usrp_tx(args):
         usrp.set_tx_gain(args.gain, chan)
       
     tx_streamer = config_streamer(args, usrp)
-    if args.wave_freq == 0.0:
-        desired_size = 1e6 # Just pick a value
-    else:
-        desired_size = 10 * np.floor(args.rate / args.wave_freq)
-    data = uhd.dsp.signals.get_continuous_tone(
-        args.rate,
-        args.wave_freq,
-        args.wave_ampl,
-        desired_size=desired_size,
-        max_size=(args.duration * args.rate))
 
     socket.connect(f"tcp://{args.ip}:{5558}")  # Connect to the publisher's address
 
@@ -154,8 +106,7 @@ def multi_usrp_tx(args):
     
     start = wait_till_go_from_server()
     while(start):
-        send_waveform(usrp, data, args.duration, args.freq,  tx_streamer, args.rate,
-                        args.channels, args.gain)
+        tx(usrp, args.duration, tx_streamer, args.rate, args.channels)
         start = wait_till_go_from_server()
 
 def main():
