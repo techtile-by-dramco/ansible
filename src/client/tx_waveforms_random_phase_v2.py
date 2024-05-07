@@ -84,7 +84,6 @@ def setup_clock(usrp, clock_src, num_mboards):
     usrp.set_clock_source(clock_src)
 
     print("Now confirming lock on clock signals...")
-    end_time = datetime.now() + timedelta(milliseconds=CLOCK_TIMEOUT)
 
     # Lock onto clock signals for all mboards
     for i in range(num_mboards):
@@ -117,6 +116,17 @@ def multi_usrp_tx(args):
         usrp.set_tx_rate(args.rate, chan)
         usrp.set_tx_freq(uhd.types.TuneRequest(args.freq), chan)
         usrp.set_tx_gain(args.gain, chan)
+
+
+    while not usrp.get_rx_sensor("lo_locked").to_bool():
+        time.sleep(0.01)
+
+    print("RX LO is locked")
+
+    while not usrp.get_tx_sensor("lo_locked").to_bool():
+        time.sleep(0.01)
+
+    print("TX LO is locked")
       
     tx_streamer = config_streamer(args, usrp)
 
