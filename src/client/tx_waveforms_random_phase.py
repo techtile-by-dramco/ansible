@@ -50,7 +50,7 @@ def parse_args():
             # update
             for k, v in config_data.items():
                 setattr(args, k, v)
-
+    print(args)
     return args
 
 import zmq
