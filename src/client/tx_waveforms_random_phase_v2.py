@@ -81,6 +81,8 @@ def tx(duration, tx_streamer, rate, channels):
 
     random_phases = [[0.7+0.7*1j],[0.3+0.8*1j]]
 
+    print(random_phases)
+
     buffer = np.tile(random_phases, buffer_samps)
 
     send_samps = 0
