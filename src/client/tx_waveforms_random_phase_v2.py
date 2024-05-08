@@ -79,7 +79,7 @@ def tx(duration, tx_streamer, rate, channels):
 
     random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
-    random_phases = [[0.7+0.7*1j],[0.3+0.8*1j]]
+    # random_phases = [[0.7+0.7*1j],[0.3+0.8*1j]]
 
     print(random_phases)
 
