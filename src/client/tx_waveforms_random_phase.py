@@ -40,7 +40,7 @@ def parse_args():
 
     args = parser.parse_args()
 
-    if hostname:=args.config:
+    if args.config:
         # read from config file
 
         with open("config.yml", "r") as yaml_file:
