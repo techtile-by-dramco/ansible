@@ -24,6 +24,10 @@ from datetime import datetime, timedelta
 #from uhd.usrp import dram_utils
 import yaml
 
+def update(args, new_args:dict):
+    for k, v in new_args.items():
+        setattr(args, k, v)
+
 
 def parse_args():
     """Parse the command line arguments"""
@@ -44,12 +48,14 @@ def parse_args():
         # read from config file
 
         with open("config.yml", "r") as yaml_file:
-            config_data = yaml.safe_load(yaml_file)["usrp"]["hosts"]["all"]
-            
+            config_data = yaml.safe_load(yaml_file)["usrp"]["hosts"]
             print(config_data)
-            # update
-            for k, v in config_data.items():
-                setattr(args, k, v)
+            if config_data["all"]:
+                update(args, config_data["all"])
+                # args.config should contain the ansible hostname
+            if config_data[args.config]:
+                update(args, config_data[args.config])
+            
     print(args)
     return args
 
