@@ -8,8 +8,6 @@
 --ip "IP OF ZMQ SERVER"
 
 Server port: 5558 topic: phase commands: start or stop
-
-
 """
 
 import time
@@ -63,14 +61,14 @@ def tx(usrp, duration, tx_streamer, rate, channels):
     buffer_samps = tx_streamer.get_max_num_samps()
     samps_to_send = rate*duration
 
-    random_phases = 0.5*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
+    random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
     buffer = np.tile(random_phases, buffer_samps)
 
     send_samps = 0
 
     while send_samps < samps_to_send:
-        samples = tx_streamer.send(0.7*np.ones((len(channels), buffer_samps), dtype=np.complex64), metadata)
+        samples = tx_streamer.send(random_phases, dtype=np.complex64), metadata)
         send_samps += samples
     # Send EOB to terminate Tx
     metadata.end_of_burst = True
