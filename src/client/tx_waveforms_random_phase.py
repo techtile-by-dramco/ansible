@@ -47,8 +47,10 @@ def parse_args():
             config_data = yaml.safe_load(yaml_file)["usrp"]["hosts"]["all"]
             
             print(config_data)
+            # update
+            for k, v in config_data.items():
+                setattr(args, k, v)
 
-            args.update(config_data)
     return args
 
 import zmq
