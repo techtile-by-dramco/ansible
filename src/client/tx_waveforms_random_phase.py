@@ -46,7 +46,6 @@ def parse_args():
 
     if args.config:
         # read from config file
-
         with open("config.yml", "r") as yaml_file:
             config_data = yaml.safe_load(yaml_file)["usrp"]["hosts"]
             print(config_data)
