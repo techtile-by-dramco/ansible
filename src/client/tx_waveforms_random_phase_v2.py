@@ -77,18 +77,23 @@ def tx(duration, tx_streamer, rate, channels):
     buffer_samps = tx_streamer.get_max_num_samps()
     samps_to_send = rate*duration
 
-    random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
+    signal = np.ones((len(channels), samps_to_send), dtype=np.complex64)
+    signal *=  np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
-    random_phases = [[0.7+0.7*1j],[0.4+0.4*1j]] #[[-0.20236319+0.56484435*1j], [-0.25562181+0.54282363*1j]] #[[0.7+0.7*1j],[0.3+0.8*1j]]
+    # random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
-    print(random_phases)
+    # random_phases = [[0.7+0.7*1j],[0.4+0.4*1j]] #[[-0.20236319+0.56484435*1j], [-0.25562181+0.54282363*1j]] #[[0.7+0.7*1j],[0.3+0.8*1j]]
 
-    buffer = np.tile(random_phases, buffer_samps)
+    # print(random_phases)
+
+    # buffer = np.tile(random_phases, buffer_samps)
+
+    print(signal[:,0])
 
     send_samps = 0
 
     while send_samps < samps_to_send:
-        samples = tx_streamer.send(buffer, metadata)
+        samples = tx_streamer.send(signal, metadata)
         send_samps += samples
     # Send EOB to terminate Tx
     metadata.end_of_burst = True
