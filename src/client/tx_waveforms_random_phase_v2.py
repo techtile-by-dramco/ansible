@@ -71,13 +71,15 @@ def config_streamer(args, usrp):
     st_args.channels = args.channels
     return usrp.get_tx_stream(st_args)
 
-def tx(usrp, duration, tx_streamer, rate, channels):
+def tx(duration, tx_streamer, rate, channels):
     metadata = uhd.types.TXMetadata()
 
     buffer_samps = tx_streamer.get_max_num_samps()
     samps_to_send = rate*duration
 
     random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
+
+    random_phases = [[1],[1]]
 
     buffer = np.tile(random_phases, buffer_samps)
 
@@ -155,7 +157,7 @@ def multi_usrp_tx(args):
     
     start = wait_till_go_from_server(timeout=args.noip)
     while(start or args.noip):
-        tx(usrp, args.duration, tx_streamer, args.rate, args.channels)
+        tx(args.duration, tx_streamer, args.rate, args.channels)
         start = wait_till_go_from_server(timeout=True)
 
 def main():
