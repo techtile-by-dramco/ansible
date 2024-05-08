@@ -10,12 +10,17 @@
 Server port: 5558 topic: phase commands: start or stop
 
 
+optionally you can specify --noip and it will not wait for sever commands
+
+python3 tx_waveforms_random_phase_v2.py -f 917E6 -c 0 1 --gain 40 -d 10 --noip --rate 250E3
+
 """
 
 import time
 import argparse
 import numpy as np
 import uhd
+from datetime import datetime, timedelta
 #from uhd.usrp import dram_utils
 
 
@@ -23,138 +28,143 @@ def parse_args():
     """Parse the command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--args", default="", type=str)
-    parser.add_argument(
-        "-w", "--waveform", default="sine",
-        choices=['sine', 'square', 'const', 'ramp'], type=str)
     parser.add_argument("-f", "--freq", type=float, required=True)
     parser.add_argument("-r", "--rate", default=1e6, type=float)
     parser.add_argument("-d", "--duration", default=1.0, type=float)
     parser.add_argument("-c", "--channels", default=0, nargs="+", type=int)
     parser.add_argument("-g", "--gain", type=float, default=10.0)
-    parser.add_argument("--wave-freq", default=1e4, type=float)
-    parser.add_argument("--wave-ampl", default=0.3, type=float)
-    parser.add_argument("--ip", required=True, type=str)
+    parser.add_argument("--ip", type=str)
+    parser.add_argument("--noip", action='store_true')
     return parser.parse_args()
 
 import zmq
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
+poller = zmq.Poller()
+poller.register(socket, zmq.POLLIN)
 
 
-def wait_till_go_from_server():
+def wait_till_go_from_server(timeout=False):
     """Wait till a message is received at ip:5557 for topic phase.
 
     Args:
         ip (str): IP Address of the server
     """
-    
-    # Receives a string format message
-    topic = socket.recv_string()
-    # todo check topic
-    cmd = socket.recv_string()
-    print(cmd)
+
+    # Check if there are any incoming messages without blocking
+    if timeout:
+        socks = dict(poller.poll(timeout=0))
+        if socket in socks and socks[socket] == zmq.POLLIN:
+            # Receives a string format message
+            topic = socket.recv_string()
+            # todo check topic
+            cmd = socket.recv_string()
+        else:
+            print("No message available")
+            cmd = "start"  # default value
+    else:
+        # Receives a string format message
+        topic = socket.recv_string()
+        # todo check topic
+        cmd = socket.recv_string()
+        print(cmd)
 
     return cmd.lower()=="start"
 
 def config_streamer(args, usrp):
-    st_args = uhd.usrp.StreamArgs("fc32", "sc16")
+    st_args = uhd.usrp.StreamArgs("fc32", "fc32")
     st_args.channels = args.channels
     return usrp.get_tx_stream(st_args)
 
-
-def send_waveform(usrp, waveform_proto,
-                      duration,
-                      freq,
-                      streamer,
-                      rate=1e6,
-                      channels=(0,),
-                      gain=10,
-                      start_time=None):
-    """
-    TX a finite number of samples from the USRP
-    :param waveform_proto: numpy array of samples to TX
-    :param duration: time in seconds sending at constant random phase
-    :param freq: TX frequency (Hz)
-    :param rate: TX sample rate (Hz)
-    :param channels: list of channels to TX on
-    :param gain: TX gain (dB)
-    :param start_time: A valid TimeSpec object with the starting time. If
-                        None, then streaming starts immediately.
-    :param streamer: A TX streamer object. If None, this function will create
-                        one locally and attempt to destroy it afterwards.
-    :return: the number of transmitted samples
-    """
-    
-    ## And go!
-    for chan in channels:
-        usrp.set_tx_rate(rate, chan)
-        usrp.set_tx_freq(uhd.types.TuneRequest(freq), chan)
-        usrp.set_tx_gain(gain, chan)
-
-    # Set up buffers and counters
-    buffer_samps = streamer.get_max_num_samps()
-    proto_len = waveform_proto.shape[-1]
-    if proto_len < buffer_samps:
-        waveform_proto = np.tile(waveform_proto,
-                                    (1, int(np.ceil(float(buffer_samps)/proto_len))))
-        proto_len = waveform_proto.shape[-1]
-    send_samps = 0
-    max_samps = int(np.floor(duration * rate))
-    if len(waveform_proto.shape) == 1:
-        waveform_proto = waveform_proto.reshape(1, waveform_proto.size)
-    if waveform_proto.shape[0] < len(channels):
-        waveform_proto = np.tile(waveform_proto[0], (len(channels), 1))
-    # multiply waveform_proto with fixed random phase per channel
-    waveform_proto *=  np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
-    # Now stream
+def tx(duration, tx_streamer, rate, channels):
     metadata = uhd.types.TXMetadata()
-    if start_time is not None:
-        metadata.time_spec = start_time
-        metadata.has_time_spec = True
-    while send_samps < max_samps:
-        real_samps = min(proto_len, max_samps-send_samps)
-        if real_samps < proto_len:
-            samples = streamer.send(waveform_proto[:, :real_samps], metadata)
-        else:
-            samples = streamer.send(waveform_proto, metadata)
+
+    buffer_samps = tx_streamer.get_max_num_samps()
+    samps_to_send = int(rate*duration)
+
+    signal = np.ones((len(channels), buffer_samps), dtype=np.complex64)
+    signal *= np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)*0.8 # 0.8 to not exceed to 1.0 threshold
+
+
+    print(signal[:,0])
+
+    send_samps = 0
+
+    while send_samps < samps_to_send:
+        samples = tx_streamer.send(signal, metadata)
         send_samps += samples
     # Send EOB to terminate Tx
     metadata.end_of_burst = True
-    streamer.send(np.zeros((len(channels), 1), dtype=np.complex64), metadata)
+    tx_streamer.send(np.zeros((len(channels), 1), dtype=np.complex64), metadata)
     # Help the garbage collection
-    streamer = None
     return send_samps
 
+CLOCK_TIMEOUT = 1000  # 1000mS timeout for external clock locking
+
+def setup_clock(usrp, clock_src, num_mboards):
+    usrp.set_clock_source(clock_src)
+
+    end_time = datetime.now() + timedelta(milliseconds=CLOCK_TIMEOUT)
+
+    print("Now confirming lock on clock signals...")
+
+    # Lock onto clock signals for all mboards
+    for i in range(num_mboards):
+        is_locked = usrp.get_mboard_sensor("ref_locked", i)
+        while (not is_locked) and (datetime.now() < end_time):
+            time.sleep(1e-3)
+            is_locked = usrp.get_mboard_sensor("ref_locked", i)
+        if not is_locked:
+            print("Unable to confirm clock signal locked on board %d", i)
+            return False
+        else:
+            print("Clock signals are locked")
+    return True
+
+
+def setup_pps(usrp, pps):
+    """Setup the PPS source"""
+    usrp.set_time_source(pps)
+    return True
+    
 def multi_usrp_tx(args):
     """
     multi_usrp based TX example
     """
     usrp = uhd.usrp.MultiUSRP(args.args)
-    usrp.set_clock_source("external")
-    usrp.set_time_source("external")
+    setup_clock(usrp, "external", usrp.get_num_mboards())
+    setup_pps(usrp, "external")
+
+    for chan in args.channels:
+        usrp.set_tx_rate(args.rate, chan)
+        usrp.set_tx_freq(uhd.types.TuneRequest(args.freq), chan)
+        usrp.set_tx_gain(args.gain, chan)
+
+
+    while not usrp.get_rx_sensor("lo_locked").to_bool():
+        time.sleep(0.01)
+
+    print("RX LO is locked")
+
+    while not usrp.get_tx_sensor("lo_locked").to_bool():
+        time.sleep(0.01)
+
+    print("TX LO is locked")
+      
     tx_streamer = config_streamer(args, usrp)
-    if args.wave_freq == 0.0:
-        desired_size = 1e6 # Just pick a value
-    else:
-        desired_size = 10 * np.floor(args.rate / args.wave_freq)
-    data = uhd.dsp.signals.get_continuous_tone(
-        args.rate,
-        args.wave_freq,
-        args.wave_ampl,
-        desired_size=desired_size,
-        max_size=(args.duration * args.rate))
 
     socket.connect(f"tcp://{args.ip}:{5558}")  # Connect to the publisher's address
 
     # Subscribe to topics
     socket.subscribe("phase")
+
+    # if noip then we skip the wait till server and just continue
     
-    start = wait_till_go_from_server()
-    while(start):
-        send_waveform(usrp, data, args.duration, args.freq,  tx_streamer, args.rate,
-                        args.channels, args.gain)
-        start = wait_till_go_from_server()
+    start = wait_till_go_from_server(timeout=args.noip)
+    while(start or args.noip):
+        tx(args.duration, tx_streamer, args.rate, args.channels)
+        start = wait_till_go_from_server(timeout=True)
 
 def main():
     """TX samples based on input arguments"""
