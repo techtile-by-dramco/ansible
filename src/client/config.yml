@@ -15,3 +15,5 @@ usrp:
     all:
       freq: 917000000.0
       gain: 50
+    T04: 
+      gain: 30
