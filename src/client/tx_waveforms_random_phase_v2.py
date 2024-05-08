@@ -75,9 +75,9 @@ def tx(duration, tx_streamer, rate, channels):
     metadata = uhd.types.TXMetadata()
 
     buffer_samps = tx_streamer.get_max_num_samps()
-    samps_to_send = rate*duration
+    samps_to_send = int(rate*duration)
 
-    signal = np.ones((len(channels), samps_to_send), dtype=np.complex64)
+    signal = np.ones((len(channels), buffer_samps), dtype=np.complex64)
     signal *=  np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
     # random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
