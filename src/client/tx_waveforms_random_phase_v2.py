@@ -8,6 +8,12 @@
 --ip "IP OF ZMQ SERVER"
 
 Server port: 5558 topic: phase commands: start or stop
+
+
+optionally you can specify --noip and it will not wait for sever commands
+
+python3 tx_waveforms_random_phase_v2.py -f 917E6 -c 0 1 --gain 40 -d 10 --noip --rate 250E3
+
 """
 
 import time
@@ -80,13 +86,6 @@ def tx(duration, tx_streamer, rate, channels):
     signal = np.ones((len(channels), buffer_samps), dtype=np.complex64)
     signal *= np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)*0.8 # 0.8 to not exceed to 1.0 threshold
 
-    # random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
-
-    # random_phases = [[0.7+0.7*1j],[0.4+0.4*1j]] #[[-0.20236319+0.56484435*1j], [-0.25562181+0.54282363*1j]] #[[0.7+0.7*1j],[0.3+0.8*1j]]
-
-    # print(random_phases)
-
-    # buffer = np.tile(random_phases, buffer_samps)
 
     print(signal[:,0])
 
