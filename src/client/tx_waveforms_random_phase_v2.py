@@ -78,7 +78,7 @@ def tx(duration, tx_streamer, rate, channels):
     samps_to_send = int(rate*duration)
 
     signal = np.ones((len(channels), buffer_samps), dtype=np.complex64)
-    signal *= np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)*0.6
+    signal *= np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)*0.8 # 0.8 to not exceed to 1.0 threshold
 
     # random_phases = 0.6*np.exp(1j*np.random.rand(len(channels), 1)*2*np.pi)
 
