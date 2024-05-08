@@ -14,6 +14,7 @@ import time
 import argparse
 import numpy as np
 import uhd
+from datetime import datetime, timedelta
 #from uhd.usrp import dram_utils
 
 
@@ -26,7 +27,8 @@ def parse_args():
     parser.add_argument("-d", "--duration", default=1.0, type=float)
     parser.add_argument("-c", "--channels", default=0, nargs="+", type=int)
     parser.add_argument("-g", "--gain", type=float, default=10.0)
-    parser.add_argument("--ip", required=True, type=str)
+    parser.add_argument("--ip", type=str)
+    parser.add_argument("--noip", action='store_true')
     return parser.parse_args()
 
 import zmq
@@ -95,6 +97,8 @@ CLOCK_TIMEOUT = 1000  # 1000mS timeout for external clock locking
 def setup_clock(usrp, clock_src, num_mboards):
     usrp.set_clock_source(clock_src)
 
+    end_time = datetime.now() + timedelta(milliseconds=CLOCK_TIMEOUT)
+
     print("Now confirming lock on clock signals...")
 
     # Lock onto clock signals for all mboards
@@ -146,9 +150,11 @@ def multi_usrp_tx(args):
 
     # Subscribe to topics
     socket.subscribe("phase")
+
+    # if noip then we skip the wait till server and just continue
     
-    start = wait_till_go_from_server()
-    while(start):
+    start = wait_till_go_from_server(timeout=args.noip)
+    while(start or args.noip):
         tx(usrp, args.duration, tx_streamer, args.rate, args.channels)
         start = wait_till_go_from_server(timeout=True)
 
