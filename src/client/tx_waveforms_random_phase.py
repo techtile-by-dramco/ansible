@@ -22,6 +22,7 @@ import numpy as np
 import uhd
 from datetime import datetime, timedelta
 #from uhd.usrp import dram_utils
+import yaml
 
 
 def parse_args():
@@ -35,7 +36,20 @@ def parse_args():
     parser.add_argument("-g", "--gain", type=float, default=10.0)
     parser.add_argument("--ip", type=str)
     parser.add_argument("--noip", action='store_true')
-    return parser.parse_args()
+    parser.add_argument("--config", type=str)
+
+    args = parser.parse_args()
+
+    if hostname:=args.config:
+        # read from config file
+
+        with open("config.yml", "r") as yaml_file:
+            config_data = yaml.safe_load(yaml_file)["usrp"]["hosts"]["all"]
+            
+            print(config_data)
+
+            args.update(config_data)
+    return args
 
 import zmq
 
