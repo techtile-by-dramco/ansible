@@ -33,20 +33,34 @@ import zmq
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
+poller = zmq.Poller()
+poller.register(socket, zmq.POLLIN)
 
 
-def wait_till_go_from_server():
+def wait_till_go_from_server(timeout=False):
     """Wait till a message is received at ip:5557 for topic phase.
 
     Args:
         ip (str): IP Address of the server
     """
-    
-    # Receives a string format message
-    topic = socket.recv_string()
-    # todo check topic
-    cmd = socket.recv_string()
-    print(cmd)
+
+    # Check if there are any incoming messages without blocking
+    if timeout:
+        socks = dict(poller.poll(timeout=0))
+        if socket in socks and socks[socket] == zmq.POLLIN:
+            # Receives a string format message
+            topic = socket.recv_string()
+            # todo check topic
+            cmd = socket.recv_string()
+        else:
+            print("No message available")
+            cmd = "start"  # default value
+    else:
+        # Receives a string format message
+        topic = socket.recv_string()
+        # todo check topic
+        cmd = socket.recv_string()
+        print(cmd)
 
     return cmd.lower()=="start"
 
@@ -136,7 +150,7 @@ def multi_usrp_tx(args):
     start = wait_till_go_from_server()
     while(start):
         tx(usrp, args.duration, tx_streamer, args.rate, args.channels)
-        start = wait_till_go_from_server()
+        start = wait_till_go_from_server(timeout=True)
 
 def main():
     """TX samples based on input arguments"""
