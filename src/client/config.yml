@@ -1,0 +1,17 @@
+# generic condig file
+positioning:
+  ip: 192.108.0.13
+  system: QUALYSIS
+scope:
+  cable_loss: 0
+  center_Hz: 5850000000.0
+  ip: 192.108.0.251
+  rbw_Hz: 100.0
+  span_Hz: 10000000.0
+usrp:
+  ansible_tiles: segmentA
+  transmitters_enabled: false
+  hosts:
+    all:
+      freq: 917000000.0
+      gain: 50
