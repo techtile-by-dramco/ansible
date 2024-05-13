@@ -21,7 +21,7 @@
 
     - name: Copy files
       ansible.builtin.copy:
-        src: {{client_script_patch}}
+        src: {{ patch_to_client_script }}
         dest: /home/pi/exp/{{ experiment_name }}
         #recursive: yes
 
