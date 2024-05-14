@@ -19,17 +19,13 @@
         state: directory
         mode: "0755"
 
-    - name: Copy files
+    - name: Copy script file
       ansible.builtin.copy:
-        src: "{{ source_path }}"
+        src: "{{ script_file_path }}"
         dest: /home/pi/exp/{{ experiment_name }}
         #recursive: yes
-
-# - name: Copy file to server
-#   hosts: server
-#   tasks:
-#     - name: Copy the server file
-#       copy:
-#         src: src/server
-#         dest: /home/techtile/server
-#         directory_mode: yes
+    
+    - name: Copy config file
+      ansible.builtin.copy:
+        src: "{{ config_file_path }}"
+        dest: /home/pi/exp/{{ experiment_name }}

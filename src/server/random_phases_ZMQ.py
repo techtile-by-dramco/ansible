@@ -14,12 +14,12 @@ def main():
             print("Invalid input. Please enter 'start', 'stop', or 'close'.")
             continue
 
+        # Publish the input on the "phase" topic
+        publisher.send_multipart([b"phase", user_input.encode()])
+
         # If user input is 'close', break out of the loop and stop the server
         if user_input == "close":
             break
-
-        # Publish the input on the "phase" topic
-        publisher.send_multipart([b"phase", user_input.encode()])
 
     # Close the socket and context when done
     publisher.close()

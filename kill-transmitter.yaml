@@ -7,5 +7,6 @@
       include_tasks: gather_facts.yaml
   tasks:
     - name: Kill the background script process
-      command: pkill -f tx_waveforms.py
+      #command: pkill -f tx_waveforms.py
+      command: pkill -f tx_waveforms_random_phase.py
       ignore_errors: yes
