@@ -15,14 +15,14 @@
 
     - name: Ensure experiment name directory exists
       ansible.builtin.file:
-        path: /home/pi/exp/{{ experiment_name }}
+        path: /home/pi/exp/"{{ experiment_name }}"
         state: directory
         mode: "0755"
 
     - name: Copy files
       ansible.builtin.copy:
-        src: {{ source_path }}
-        dest: /home/pi/exp/{{ experiment_name }}
+        src: "{{ source_path }}"
+        dest: /home/pi/exp/"{{ experiment_name }}"
         #recursive: yes
 
 # - name: Copy file to server
