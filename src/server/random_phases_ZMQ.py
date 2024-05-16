@@ -10,7 +10,7 @@ def main():
         user_input = input("Enter 'start', 'stop', or 'close' to stop the server: ").strip().lower()
 
         # Check if input is valid
-        if user_input not in ["start", "stop", "close"]:
+        if user_input not in ["init", "start", "stop", "close"]:
             print("Invalid input. Please enter 'start', 'stop', or 'close'.")
             continue
 
