@@ -3,9 +3,9 @@
   hosts: "{{ tiles }}"
   serial: 0  # Run tasks in parallel for all hosts
   gather_facts: no
-  pre_tasks:
-    - name: Gather Facts
-      include_tasks: gather_facts.yaml
+  # pre_tasks:
+  #   - name: Gather Facts
+  #     include_tasks: gather_facts.yaml
   tasks:
     - name: Ensure exp directory exists
       ansible.builtin.file:
