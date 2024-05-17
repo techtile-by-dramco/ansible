@@ -5,17 +5,17 @@
     PYTHONPATH: "/usr/local/lib/python3/dist-packages"
     UHD_IMAGES_DIR: "/usr/share/uhd/images" # no idea why we need to include this as it is defined .bashrc
   tasks:
-    - name: Get the current hostname
-      command: hostname
-      register: hostname_output
-    - name: Print the variable
-      debug:
-        var: hostname_output
-    - name: Print the inventory hostname
-      debug:
-        msg: "The inventory hostname is: {{ inventory_hostname }}"
+    # - name: Get the current hostname
+    #   command: hostname
+    #   register: hostname_output
+    # - name: Print the variable
+    #   debug:
+    #     var: hostname_output
+    # - name: Print the inventory hostname
+    #   debug:
+    #     msg: "The inventory hostname is: {{ inventory_hostname }}"
     - name: Execute specified client script in the background
       ansible.builtin.shell:
-        cmd: "nohup python3 {{ script }} --config {{ hostname_output }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
+        cmd: "nohup python3 {{ script }} --config {{ inventory_hostname }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
         chdir: /home/pi/exp/{{ experiment_name }}
         executable: /bin/bash
