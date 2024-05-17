@@ -10,7 +10,7 @@
       register: hostname_output
     - name: Print the variable
       debug:
-        var: my_variable
+        var: hostname_output
     - name: Execute specified client script in the background
       ansible.builtin.shell:
         cmd: "nohup python3 {{ script }} --config {{ hostname_output.stdout }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
