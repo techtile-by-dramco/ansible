@@ -10,6 +10,6 @@
       register: hostname_output
     - name: Execute specified client script in the background
       ansible.builtin.shell:
-        cmd: "nohup python3 {{ script }} --config {{ hostname_output.stdout }} > log.txt 2>&1 &"
+        cmd: "nohup python3 {{ script }} --config {{ hostname_output.stdout }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
         chdir: /home/pi/exp/{{ experiment_name }}
         executable: /bin/bash
