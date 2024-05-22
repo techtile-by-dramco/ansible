@@ -13,7 +13,7 @@
     #     var: hostname_output
     - name: Print the inventory hostname
       debug:
-        msg: "The inventory hostname is: {{ inventory_hostname }}"
+        msg: "nohup python3 {{ script }} --config {{ inventory_hostname }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
     - name: Execute specified client script in the background
       ansible.builtin.shell:
         cmd: "nohup python3 {{ script }} --config {{ inventory_hostname }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
