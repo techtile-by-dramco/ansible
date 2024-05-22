@@ -11,9 +11,9 @@
     # - name: Print the variable
     #   debug:
     #     var: hostname_output
-    # - name: Print the inventory hostname
-    #   debug:
-    #     msg: "The inventory hostname is: {{ inventory_hostname }}"
+    - name: Print the inventory hostname
+      debug:
+        msg: "The inventory hostname is: {{ inventory_hostname }}"
     - name: Execute specified client script in the background
       ansible.builtin.shell:
         cmd: "nohup python3 {{ script }} --config {{ inventory_hostname }} --ip {{ zmq_ip }} > log.txt 2>&1 &"
