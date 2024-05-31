@@ -12,11 +12,26 @@
         path: /home/pi/repos/usrp
         state: directory
         mode: "0755"
+
+    - name: Check if repository is already cloned
+      stat: 
+        path: "/home/pi/repos/usrp/.git"
+      register: git_repo
+
     - name: Clone the repository
       git:
         repo: "https://github.com/techtile-by-dramco/usrp"
         dest: "/home/pi/repos/usrp"
         version: "main"  # or specify a branch, tag, or commit hash
+      when: not git_repo.stat.exists
+
+    - name: Pull the lastest changes if repository already exists
+      git:
+        repo: "https://github.com/techtile-by-dramco/usrp"
+        dest: "/home/pi/repos/usrp"
+        version: "main"  # or specify a branch, tag, or commit hash
+        update: yes
+      when: git_repo.stat.exists
 
     - name: Find devices usrp
       ansible.builtin.shell:

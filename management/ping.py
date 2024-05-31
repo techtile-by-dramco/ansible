@@ -1,4 +1,4 @@
-# Clean up "exp" directory for the specified clients (or hosts) (or tiles)
+# Ping
 
 # *** Includes ***
 import os
@@ -14,8 +14,8 @@ import ansible_runner
 
 #   INFO
 server_user_name = "jarne"
-ansible_yaml_file = "load-fpga-image.yaml"
-tiles = "E09"
+ansible_yaml_file = "ping.yaml"
+tiles = "ceiling"
 
 if __name__ == '__main__':
 

@@ -310,9 +310,8 @@ all:
         T04:
     multiON:
       hosts:
-        G02:
-        G03:
-        G04:
+        E09:
+        E10:
 #        G05:
 #        G06:
 #        G07:
