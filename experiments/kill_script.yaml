@@ -1,0 +1,9 @@
+---
+- name: Kill Python script
+  hosts: "{{ tiles }}"
+  gather_facts: no
+  tasks:
+    - name: Kill the background script process
+      #command: pkill -f tx_waveforms.py
+      command: pkill -f {{ script_name }}
+      ignore_errors: yes
