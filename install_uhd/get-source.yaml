@@ -30,12 +30,12 @@
 
 - name: Apply patch using git apply --stat
   ansible.builtin.command:
-    cmd: git apply --stat ./iface.patch
+    cmd: git apply --stat  /home/pi/uhd/iface.patch
     chdir: "{{ uhd_repo_dir }}"
 
 - name: Apply patch and signoff using git am
   ansible.builtin.command:
-    cmd: git am --keep-cr --signoff < ./iface.patch
+    cmd: git am --keep-cr --signoff <  /home/pi/uhd/iface.patch
     chdir: "{{ uhd_repo_dir }}"
 
 - name: Clone the volk repository
