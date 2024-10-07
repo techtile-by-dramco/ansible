@@ -10,7 +10,7 @@
     - name: Run apt upgrade
       ansible.builtin.apt:
         upgrade: yes
-        dpkg_options: '--force-confold'
+        dpkg_options: 'force-confold'
       environment:
         DEBIAN_FRONTEND: noninteractive
         UCF_FORCE_CONFFOLD: 1
@@ -23,7 +23,7 @@
         state: present
         force_apt_get: yes
         update_cache: yes
-        dpkg_options: '--force-confold'
+        dpkg_options: 'force-confold'
       environment:
         DEBIAN_FRONTEND: noninteractive
         UCF_FORCE_CONFFOLD: 1
