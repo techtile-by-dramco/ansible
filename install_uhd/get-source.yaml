@@ -12,7 +12,7 @@
     uhd_repo_dir: "/home/pi/uhd"
 
 - name: Clone the uhd repository
-  ansible.builtin.git:
+  git:
     repo: https://github.com/EttusResearch/uhd.git
     dest: "{{ uhd_repo_dir }}"
     clone: yes
@@ -39,7 +39,7 @@
     chdir: "{{ uhd_repo_dir }}"
 
 - name: Clone the volk repository
-  ansible.builtin.git:
+  git:
     repo: https://github.com/gnuradio/volk.git
     dest: "/home/pi/volk"
     clone: yes

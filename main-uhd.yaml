@@ -48,8 +48,8 @@
       # - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
       - 'export LD_LIBRARY_PATH=/usr/local/lib'
 
-- name: Clone the experiments repository from GitHub
-  ansible.builtin.git:
-    repo: https://github.com/techtile-by-dramco/experiments
-    dest: /home/pi/  # Replace with the directory where you want to clone the repository
-    update: yes
+  - name: Clone the experiments repository from GitHub
+    git:
+      repo: https://github.com/techtile-by-dramco/experiments
+      dest: /home/pi/  # Replace with the directory where you want to clone the repository
+      update: yes
