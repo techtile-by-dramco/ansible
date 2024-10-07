@@ -11,7 +11,7 @@
 - name: Run cmake, make and test
   ansible.builtin.shell: 
     cmd: |
-      cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../ &&
+      cmake -DCMAKE_BUILD_TYPE=Release ../ &&
       make -j6 &&
       make test
     chdir: "{{ volk_build_dir }}"

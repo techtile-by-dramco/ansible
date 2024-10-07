@@ -35,3 +35,5 @@ packages:
   - "libeigen3-dev"
   - "libsndfile1-dev"
   - "xterm"
+  - "python3-ruamel.yaml"
+  - "ruamel.yaml"

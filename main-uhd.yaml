@@ -8,22 +8,22 @@
     - name: Gather Facts
       include_tasks: gather_facts.yaml
   tasks:
-  - name: Check if uhd are insatlled
+  - name: Check if uhd are installed
     include_tasks: install_uhd/check-uhd.yaml
 
   - name: Get all repositories
     include_tasks: install_uhd/get-source.yaml
-    when: not uhd_exists
+    # when: not uhd_exists
 
-  - name: Build if UHD are not insatlled
+  - name: Build if UHD are not installed
     include_tasks: install_uhd/install-uhd.yaml
-    when: not uhd_exists
+    # when: not uhd_exists
 
   - name: Build volk
     include_tasks: install_uhd/install-volk.yaml
-    when: not uhd_exists
+    # when: not uhd_exists
 
-  - name: Inatll pybind11 and pyzmq
+  - name: Install pybind11 and pyzmq
     ansible.builtin.pip:
       name: 
         - pybind11
@@ -31,13 +31,13 @@
       state: present
       executable: pip3
 
-  - name: Install GNURadio
-    apt:
-      name: gnuradio
-      state: present
-      force_apt_get: yes
-      update_cache: yes
-    become: yes
+  # - name: Install GNURadio
+  #   apt:
+  #     name: gnuradio
+  #     state: present
+  #     force_apt_get: yes
+  #     update_cache: yes
+  #   become: yes
 
   - name: Export neccessary paths
     lineinfile:
@@ -45,6 +45,11 @@
       line: "{{ item }}"
     loop:
       - 'export PATH=/home/pi/.local/bin:$PATH'
-      - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
+      # - 'export PYTHONPATH=/usr/local/lib/python3/dist-packages'
       - 'export LD_LIBRARY_PATH=/usr/local/lib'
 
+- name: Clone the experiments repository from GitHub
+  ansible.builtin.git:
+    repo: https://github.com/techtile-by-dramco/experiments
+    dest: /home/pi/  # Replace with the directory where you want to clone the repository
+    update: yes

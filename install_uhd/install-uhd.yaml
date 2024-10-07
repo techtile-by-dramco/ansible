@@ -10,6 +10,12 @@
     - name: Run apt upgrade
       ansible.builtin.apt:
         upgrade: yes
+        dpkg_options: '--force-confold'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        UCF_FORCE_CONFFOLD: 1
+      become: yes
+      become_method: sudo
     
     - name: Install required packages
       ansible.builtin.apt:
@@ -17,11 +23,12 @@
         state: present
         force_apt_get: yes
         update_cache: yes
-
-- name: Checkout uhd to version v4.1.0.4
-  command:
-    chdir: "{{ uhd_repo_dir }}"
-    cmd: git checkout v4.1.0.4
+        dpkg_options: '--force-confold'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        UCF_FORCE_CONFFOLD: 1
+      become: yes
+      become_method: sudo
 
 - name: Create a build directory
   ansible.builtin.file:
@@ -35,15 +42,21 @@
 - name: Run cmake, make and test
   ansible.builtin.shell: 
     cmd: |
-      cmake -DCMAKE_INSTALL_PREFIX=/usr/local ../ -DENABLE_C_API=ON -DENABLE_PYTHON_API=ON &&
+      cmake -DCMAKE_INSTALL_PREFIX=/usr/local ../ -DENABLE_C_API=O -DENABLE_PYTHON_API=ON -DENABLE_LIBUHD=ON -DENABLE_PYMOD_UTILS=ON -DENABLE_B100=OFF -DENABLE_USRP1=OFF -DENABLE_USRP2=OFF -DENABLE_X300=OFF -DENABLE_N300=OFF  -DENABLE_N320=OFF -DENABLE_E300=OFF -DENABLE_E320=OFF -DENABLE_X400=OFF -DUHD_LOG_MIN_LEVEL=1 &&
       make -j6 &&
       make test
     chdir: "{{ uhd_build_dir }}"
 
+- name: Copy UHD files to Python 3 dist-packages directory
+  ansible.builtin.command:
+    cmd: cp -a /usr/local/lib/python3.7/site-packages/uhd/. /usr/local/lib/python3/dist-packages/uhd/
+  become: yes
+  become_method: sudo
+
 - name: Run install, idconfig and images loader
   ansible.builtin.shell: 
     cmd: | 
-      make install &&
+      make -j6 install &&
       ldconfig && 
       uhd_images_downloader 
     chdir: "{{ uhd_build_dir }}"
