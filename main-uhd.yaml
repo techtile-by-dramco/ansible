@@ -1,6 +1,6 @@
 ---
 - name: Check and install uhd
-  hosts: rpis
+  hosts: "{{ tiles }}"
   gather_facts: no
   vars_files:
     - install_uhd/packages.yaml
