@@ -1,5 +1,5 @@
 ---
-- name: Update, upgrad and install apt packages
+- name: Update, upgrade and install apt packages
   become: yes  
   block:
     - name: Run apt update with allow-releaseinfo-change
