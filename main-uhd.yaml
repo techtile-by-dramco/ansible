@@ -2,6 +2,7 @@
 - name: Check and install uhd
   hosts: "{{ tiles }}"
   gather_facts: no
+  serial: 0 # Run tasks in parallel for all hosts
   strategy: free # run all tasks per node parralel, instead of the default run task parallel and then move to the next
   vars_files:
     - install_uhd/packages.yaml
