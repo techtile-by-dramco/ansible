@@ -1,0 +1,7 @@
+---
+- name: Kill client script
+  hosts: "{{ tiles }}"
+  tasks:
+    - name: Kill the background script process
+      command: pkill -f usrp-cal.sh
+      ignore_errors: yes

@@ -1,0 +1,8 @@
+---
+- name: Start client script
+  hosts: "{{ tiles }}"
+  tasks:
+    - name: Run DL beamforming
+      ansible.builtin.shell:
+        cmd: "nohup ./usrp-cal.sh > log.txt 2>&1 &"
+        chdir: ~/experiments/00_calibration/014_pilot_techtile 
