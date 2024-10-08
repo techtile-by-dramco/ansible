@@ -52,4 +52,6 @@
     git:
       repo: https://github.com/techtile-by-dramco/experiments
       dest: /home/pi/experiments  # Replace with the directory where you want to clone the repository
+      force: true
       update: yes
+      clone: yes

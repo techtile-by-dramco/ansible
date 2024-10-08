@@ -17,7 +17,8 @@
     dest: "{{ uhd_repo_dir }}"
     clone: yes
     update: yes
-
+    force: true
+     
 - name: Checkout uhd to version v4.7
   command:
     chdir: "{{ uhd_repo_dir }}"

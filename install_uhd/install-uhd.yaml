@@ -47,12 +47,6 @@
       make test
     chdir: "{{ uhd_build_dir }}"
 
-- name: Copy UHD files to Python 3 dist-packages directory
-  ansible.builtin.command:
-    cmd: cp -a /usr/local/lib/python3.7/site-packages/uhd/. /usr/local/lib/python3/dist-packages/uhd/
-  become: yes
-  become_method: sudo
-
 - name: Run install, idconfig and images loader
   ansible.builtin.shell: 
     cmd: | 
@@ -60,6 +54,12 @@
       ldconfig && 
       uhd_images_downloader 
     chdir: "{{ uhd_build_dir }}"
+  become: yes
+  become_method: sudo
+
+- name: Copy UHD files to Python 3 dist-packages directory
+  ansible.builtin.command:
+    cmd: cp -a /usr/local/lib/python3.7/site-packages/uhd/. /usr/local/lib/python3/dist-packages/uhd/
   become: yes
   become_method: sudo
 
