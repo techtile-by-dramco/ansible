@@ -33,11 +33,6 @@
     cmd: git apply --stat  /home/pi/uhd/iface.patch
     chdir: "{{ uhd_repo_dir }}"
 
-- name: Apply patch and signoff using git am
-  ansible.builtin.shell: # shell as commanddoesnt support redirect
-    cmd: git am --keep-cr --signoff <  /home/pi/uhd/iface.patch
-    chdir: "{{ uhd_repo_dir }}"
-
 - name: Clone the volk repository
   git:
     repo: https://github.com/gnuradio/volk.git
