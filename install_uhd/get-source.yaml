@@ -29,9 +29,9 @@
     url: https://raw.githubusercontent.com/techtile-by-dramco/raspberrypi-uhd/refs/heads/master/iface.patch
     dest: /home/pi/uhd/iface.patch
 
-- name: Apply patch using git apply --stat
+- name: Apply patch using git apply 
   ansible.builtin.command:
-    cmd: git apply --stat  /home/pi/uhd/iface.patch
+    cmd: git apply /home/pi/uhd/iface.patch
     chdir: "{{ uhd_repo_dir }}"
 
 - name: Clone the volk repository
