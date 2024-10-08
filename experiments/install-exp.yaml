@@ -1,0 +1,17 @@
+---
+- name: Check and install uhd
+  hosts: "{{ tiles }}"
+  gather_facts: no
+  vars_files:
+    - ../install_uhd/packages.yaml
+  pre_tasks:
+    - name: Gather Facts
+      include_tasks: ../gather_facts.yaml
+  tasks:
+  - name: Clone the experiments repository from GitHub
+    git:
+      repo: https://github.com/techtile-by-dramco/experiments
+      dest: /home/pi/experiments  
+      force: true
+      update: yes
+      clone: yes
