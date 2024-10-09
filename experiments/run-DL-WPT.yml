@@ -1,4 +1,5 @@
 ---
+- import_playbook: kill-DL-WPT.yml
 - name: Start client script
   hosts: "{{ tiles }}"
   gather_facts: no
@@ -15,5 +16,5 @@
     - name: Run DL BF beamforming
       ansible.builtin.shell:
         cmd: "nohup python3 usrp-cal-{{ bf }}.py > log.txt 2>&1 &"
-        chdir: ~/experiments/00_calibration/014_pilot_techtile
+        chdir: ~/experiments/02_reciprocity_based_WPT/client
      
