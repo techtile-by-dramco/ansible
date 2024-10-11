@@ -1,23 +1,18 @@
 ---
-- import_playbook: kill-DL-WPT.yml
-# - import_playbook: start-ref.yml
-# - import_playbook: start-pilot.yml
 - name: Start client script
-  hosts: "{{ tiles }}"
+  hosts: T01
   gather_facts: no
   serial: 0
   environment:
     PYTHONPATH: "/usr/local/lib/python3/dist-packages"
     UHD_IMAGES_DIR: "/usr/share/uhd/images" # no idea why we need to include this as it is defined .bashrc
-  vars:
-    bf: "bf" # options: bf, nobf, randombf
   tasks:
     - name: Change to experiments directory and pull latest code from git
       shell: "git pull"
       args:
         chdir: ~/experiments/
-    - name: Run DL BF beamforming
+    - name: Start pilot
       ansible.builtin.shell:
-        cmd: "nohup python3 usrp-cal-{{ bf }}.py > log.txt 2>&1 &"
+        cmd: "nohup usrp-pilot.sh > log.txt 2>&1 &"
         chdir: ~/experiments/02_reciprocity_based_WPT/client
      

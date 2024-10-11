@@ -1,0 +1,15 @@
+---
+- name: Start client script
+  hosts: T02
+  gather_facts: no
+  serial: 0
+  environment:
+    PYTHONPATH: "/usr/local/lib/python3/dist-packages"
+    UHD_IMAGES_DIR: "/usr/share/uhd/images" # no idea why we need to include this as it is defined .bashrc
+  tasks:
+    - name: Start ref
+      ansible.builtin.shell:
+        cmd: "nohup uhd_siggen --args 'mode_n=integer' --freq 920e6 --clock-source 'external' --sync 'pps' --const -g 60 --offset 0 -m 0.8 2>&1 &"
+     
+
+     
