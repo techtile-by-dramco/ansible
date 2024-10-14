@@ -16,8 +16,17 @@
       shell: "git pull"
       args:
         chdir: ~/experiments/
+    - name: chmod +x to be sure
+      ansible.builtin.shell:
+        cmd: "chmod +x usrp-cal-{{ bf }}.sh"
+        chdir: ~/experiments/02_reciprocity_based_WPT/client
+    - name: remove windows errors 
+      ansible.builtin.shell:
+        cmd: sed -i -e 's/\r$//' ./usrp-cal-{{ bf }}.sh
+        chdir: ~/experiments/02_reciprocity_based_WPT/client
     - name: Run DL BF beamforming
       ansible.builtin.shell:
-        cmd: "nohup python3 usrp-cal-{{ bf }}.py > log.txt 2>&1 &"
+        cmd: nohup ./usrp-cal-{{ bf }}.sh > log.txt 2>&1 &
         chdir: ~/experiments/02_reciprocity_based_WPT/client
+        executable: /bin/bash
      
