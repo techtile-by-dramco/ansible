@@ -18,6 +18,12 @@ Layout of Current Rpis (Red tile: inaccessible, Green tile: accessible and confi
 ## Install UHD on the RPIs
 **Note install-uhd.yaml is depreceated** use `main-uhd.yml`.
 
+
+Example usage:
+```bash
+ansible-playbook -i inventory/hosts.yaml ../experiments/03_geometry_based_beamforming/ansible/kill-DL-WPT.yml -e tiles=ceiling -e bf="bf"
+```
+
 ##  Ping connection status
 
 ```
