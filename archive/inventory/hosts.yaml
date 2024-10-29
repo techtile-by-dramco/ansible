@@ -1,0 +1,654 @@
+---
+all:
+  vars:
+    ansible_user: pi
+    ansible_python_interpreter: /usr/bin/python3
+  hosts:
+    Techtile:
+      ansible_host: techtile-server
+      ip: 192.108.0.1  
+      access_ip: 192.108.0.1  
+    T01:
+      ansible_host: rpi-t01.local
+    T02:
+      ansible_host: rpi-t02.local
+    T03:
+      ansible_host: rpi-t03.local
+    T04:
+      ansible_host: rpi-t04.local
+    G01:
+      ansible_host: rpi-g01.local
+    G02:
+      ansible_host: rpi-g02.local
+    G03:
+      ansible_host: rpi-g03.local
+    G04:
+      ansible_host: rpi-g04.local
+    G05:
+      ansible_host: rpi-g05.local
+    G06:
+      ansible_host: rpi-g06.local
+    G07:
+      ansible_host: rpi-g07.local
+    G08:
+      ansible_host: rpi-g08.local
+    G09:
+      ansible_host: rpi-g09.local
+    G10:
+      ansible_host: rpi-g10.local
+    G11:
+      ansible_host: rpi-g11.local
+    G12:
+      ansible_host: rpi-g12.local
+    G13:
+      ansible_host: rpi-g13.local
+    G14:
+      ansible_host: rpi-g14.local
+    G15:
+      ansible_host: rpi-g15.local
+    G16:
+      ansible_host: rpi-g16.local
+    G17:
+      ansible_host: rpi-g17.local
+    G18:
+      ansible_host: rpi-g18.local
+    G19:
+      ansible_host: rpi-g19.local
+    G20:
+      ansible_host: rpi-g20.local
+    F01:
+      ansible_host: rpi-f01.local
+    F02:
+      ansible_host: rpi-f02.local
+    F03:
+      ansible_host: rpi-f03.local
+    F04:
+      ansible_host: rpi-f04.local
+    F05:
+      ansible_host: rpi-f05.local
+    F06:
+      ansible_host: rpi-f06.local
+    F07:
+      ansible_host: rpi-f07.local
+    F08:
+      ansible_host: rpi-f08.local
+    F09:
+      ansible_host: rpi-f09.local
+    F10:
+      ansible_host: rpi-f10.local
+    F11:
+      ansible_host: rpi-f11.local
+    F12:
+      ansible_host: rpi-f12.local
+    F13:
+      ansible_host: rpi-f13.local
+    F14:
+      ansible_host: rpi-f14.local
+    F15:
+      ansible_host: rpi-f15.local
+    F16:
+      ansible_host: rpi-f16.local
+    F17:
+      ansible_host: rpi-f17.local
+    F18:
+      ansible_host: rpi-f18.local
+    F19:
+      ansible_host: rpi-f19.local
+    F20:
+      ansible_host: rpi-f20.local
+    E01:
+      ansible_host: rpi-e01.local
+    E02:
+      ansible_host: rpi-e02.local
+    E03:
+      ansible_host: rpi-e03.local
+    E04:
+      ansible_host: rpi-e04.local
+    E05:
+      ansible_host: rpi-e05.local
+    E06:
+      ansible_host: rpi-e06.local
+    E07:
+      ansible_host: rpi-e07.local
+    E08:
+      ansible_host: rpi-e08.local
+    E09:
+      ansible_host: rpi-e09.local
+    E10:
+      ansible_host: rpi-e10.local
+    E11:
+      ansible_host: rpi-e11.local
+    E12:
+      ansible_host: rpi-e12.local
+    E13:
+      ansible_host: rpi-e13.local
+    E14:
+      ansible_host: rpi-e14.local
+    E15:
+      ansible_host: rpi-e15.local
+    E16:
+      ansible_host: rpi-e16.local
+    E17:
+      ansible_host: rpi-e17.local
+    E18:
+      ansible_host: rpi-e18.local
+    E19:
+      ansible_host: rpi-e19.local
+    E20:
+      ansible_host: rpi-e20.local
+    D01:
+      ansible_host: rpi-d01.local
+    D02:
+      ansible_host: rpi-d02.local
+    D03:
+      ansible_host: rpi-d03.local
+    D04:
+      ansible_host: rpi-d04.local
+    D05:
+      ansible_host: rpi-d05.local
+    D06:
+      ansible_host: rpi-d06.local
+    D07:
+      ansible_host: rpi-d07.local
+    D08:
+      ansible_host: rpi-d08.local
+    D09:
+      ansible_host: rpi-d09.local
+    D10:
+      ansible_host: rpi-d10.local
+    D11:
+      ansible_host: rpi-d11.local
+    D12:
+      ansible_host: rpi-d12.local
+    D13:
+      ansible_host: rpi-d13.local
+    D14:
+      ansible_host: rpi-d14.local
+    D15:
+      ansible_host: rpi-d15.local
+    D16:
+      ansible_host: rpi-d16.local
+    D17:
+      ansible_host: rpi-d17.local
+    D18:
+      ansible_host: rpi-d18.local
+    D19:
+      ansible_host: rpi-d19.local
+    D20:
+      ansible_host: rpi-d20.local
+    C01:
+      ansible_host: rpi-c01.local
+    C02:
+      ansible_host: rpi-c02.local
+    C03:
+      ansible_host: rpi-c03.local
+    C04:
+      ansible_host: rpi-c04.local
+    C05:
+      ansible_host: rpi-c05.local
+    C06:
+      ansible_host: rpi-c06.local
+    C07:
+      ansible_host: rpi-c07.local
+    C08:
+      ansible_host: rpi-c08.local
+    C09:
+      ansible_host: rpi-c09.local
+    C10:
+      ansible_host: rpi-c10.local
+    C11:
+      ansible_host: rpi-c11.local
+    C12:
+      ansible_host: rpi-c12.local
+    C13:
+      ansible_host: rpi-c13.local
+    C14:
+      ansible_host: rpi-c14.local
+    C15:
+      ansible_host: rpi-c15.local
+    C16:
+      ansible_host: rpi-c16.local
+    C17:
+      ansible_host: rpi-c17.local
+    C18:
+      ansible_host: rpi-c18.local
+    C19:
+      ansible_host: rpi-c19.local
+    C20:
+      ansible_host: rpi-c20.local
+    B01:
+      ansible_host: rpi-b01.local
+    B02:
+      ansible_host: rpi-b02.local
+    B03:
+      ansible_host: rpi-b03.local
+    B04:
+      ansible_host: rpi-b04.local
+    B05:
+      ansible_host: rpi-b05.local
+    B06:
+      ansible_host: rpi-b06.local
+    B07:
+      ansible_host: rpi-b07.local
+    B08:
+      ansible_host: rpi-b08.local
+    B09:
+      ansible_host: rpi-b09.local
+    B10:
+      ansible_host: rpi-b10.local
+    B11:
+      ansible_host: rpi-b11.local
+    B12:
+      ansible_host: rpi-b12.local
+    B13:
+      ansible_host: rpi-b13.local
+    B14:
+      ansible_host: rpi-b14.local
+    B15:
+      ansible_host: rpi-b15.local
+    B16:
+      ansible_host: rpi-b16.local
+    B17:
+      ansible_host: rpi-b17.local
+    B18:
+      ansible_host: rpi-b18.local
+    B19:
+      ansible_host: rpi-b19.local
+    B20:
+      ansible_host: rpi-b20.local
+    A01:
+      ansible_host: rpi-a01.local
+    A02:
+      ansible_host: rpi-a02.local
+    A03:
+      ansible_host: rpi-a03.local
+    A04:
+      ansible_host: rpi-a04.local
+    A05:
+      ansible_host: rpi-a05.local
+    A06:
+      ansible_host: rpi-a06.local
+    A07:
+      ansible_host: rpi-a07.local
+    A08:
+      ansible_host: rpi-a08.local
+    A09:
+      ansible_host: rpi-a09.local
+    A10:
+      ansible_host: rpi-a10.local
+    A11:
+      ansible_host: rpi-a11.local
+    A12:
+      ansible_host: rpi-a12.local
+    A13:
+      ansible_host: rpi-a13.local
+    A14:
+      ansible_host: rpi-a14.local
+    A15:
+      ansible_host: rpi-a15.local
+    A16:
+      ansible_host: rpi-a16.local
+    A17:
+      ansible_host: rpi-a17.local
+    A18:
+      ansible_host: rpi-a18.local
+    A19:
+      ansible_host: rpi-a19.local
+    A20:
+      ansible_host: rpi-a20.local
+  children:
+    server:
+      vars:
+        ansible_user: haorui
+      hosts:
+        Techtile:
+    tests:
+      hosts:
+        T01:
+        T02:
+        T03:
+        T04:
+    multiON:
+      hosts:
+        A05:
+        G10:
+#        G05:
+#        G06:
+#        G07:
+#        G08:
+#        G09:
+#        G10:
+#        T01:
+#        T02:
+#        G01:
+#        G02:
+#        A01:
+#        B01:
+#        C01:
+#        D01:
+#        E01:
+#        F01:
+#        G01:
+#        A11:
+#        B11:
+#        C11:
+#        D11:
+#        E12:
+#        F11:
+#        G11:
+    fail:
+      hosts:
+    wallEast:
+      hosts:
+        G01:
+        G02:
+        G03:
+        G04:
+        F01:
+        F02:
+        F03:
+        F04:
+        E01:
+        E02:
+        E03:
+        E04:
+        D01:
+        D02:
+        D03:
+        D04:
+        C01:
+        C02:
+        C03:
+        C04:
+        B01:
+        B02:
+        B03:
+        B04:
+        A01:
+        A02:
+        A03:
+        A04:
+    wallWest:
+      hosts:
+        A11:
+        A12:
+        A13:
+        A14:
+        B11:
+        B12:
+        B13:
+        B14:
+        C11:
+        C12:
+        C13:
+        C14:
+        D11:
+        D12:
+        D13:
+        D14:
+        E11:
+        E12:
+        E13:
+        E14:
+        F11:
+        F12:
+        F13:
+        F14:
+        G11:
+        G12:
+        G13:
+        G14:
+    floor:
+      hosts:
+        A15:
+        A16:
+        A17:
+        A18:
+        A19:
+        A20:
+        B15:
+        B16:
+        B17:
+        B18:
+        B19:
+        B20:
+        C15:
+        C16:
+        C17:
+        C18:
+        C19:
+        C20:
+        D15:
+        D16:
+        D17:
+        D18:
+        D19:
+        D20:
+        E15:
+        E16:
+        E17:
+        E18:
+        E19:
+        E20:
+        F15:
+        F16:
+        F17:
+        F18:
+        F19:
+        F20:
+        G15:
+        G16:
+        G17:
+        G18:
+        G19:
+        G20:
+    ceiling:
+      hosts:
+        A05:
+        A06:
+        A07:
+        A08:
+        A09:
+        A10:
+        B05:
+        B06:
+        B07:
+        B08:
+        B09:
+        B10:
+        C05:
+        C06:
+        C07:
+        C08:
+        C09:
+        C10:
+        D05:
+        D06:
+        D07:
+        D08:
+        D09:
+        D10:
+        E05:
+        E06:
+        E07:
+        E08:
+        E09:
+        E10:
+        F05:
+        F06:
+        F07:
+        F08:
+        F09:
+        F10:
+        G05:
+        G06:
+        G07:
+        G08:
+        G09:
+        G10:
+    segmentA:
+      hosts:
+        A01:
+        A02:
+        A03:
+        A04:
+        A05:
+        A06:
+        A07:
+        A08:
+        A09:
+        A10:
+        A11:
+        A12:
+        A13:
+        A14:
+        A15:
+        A16:
+        A17:
+        A18:
+        A19:
+        A20:
+    segmentB:
+      hosts:
+        B01:
+        B02:
+        B03:
+        B04:
+        B05:
+        B06:
+        B07:
+        B08:
+        B09:
+        B10:
+        B11:
+        B12:
+        B13:
+        B14:
+        B15:
+        B16:
+        B17:
+        B18:
+        B19:
+        B20:
+    segmentC:
+      hosts:
+        C01:
+        C02:
+        C03:
+        C04:
+        C05:
+        C06:
+        C07:
+        C08:
+        C09:
+        C10:
+        C11:
+        C12:
+        C13:
+        C14:
+        C15:
+        C16:
+        C17:
+        C18:
+        C19:
+        C20:
+    segmentD:
+      hosts:
+        D01:
+        D02:
+        D03:
+        D04:
+        D05:
+        D06:
+        D07:
+        D08:
+        D09:
+        D10:
+        D11:
+        D12:
+        D13:
+        D14:
+        D15:
+        D16:
+        D17:
+        D18:
+        D19:
+        D20:
+    segmentE:
+      hosts:
+        E01:
+        E02:
+        E03:
+        E04:
+        E05:
+        E06:
+        E07:
+        E08:
+        E09:
+        E10:
+        E11:
+        E12:
+        E13:
+        E14:
+        E15:
+        E16:
+        E17:
+        E18:
+        E19:
+        E20:
+    segmentF:
+      hosts:
+        F01:
+        F02:
+        F03:
+        F04:
+        F05:
+        F06:
+        F07:
+        F08:
+        F09:
+        F10:
+        F11:
+        F12:
+        F13:
+        F14:
+        F15:
+        F16:
+        F17:
+        F18:
+        F19:
+        F20:
+    segmentG:
+      hosts:
+        G01:
+        G02:
+        G03:
+        G04:
+        G05:
+        G06:
+        G07:
+        G08:
+        G09:
+        G10:
+        G11:
+        G12:
+        G13:
+        G14:
+        G15:
+        G16:
+        G17:
+        G18:
+        G19:
+        G20:
+    rpis:
+      children:
+        wallEast:
+        wallWest:
+        floor:
+        ceiling:
+    walls:
+      children:
+        wallEast:
+        wallWest:
+        
+        
