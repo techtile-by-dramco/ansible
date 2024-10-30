@@ -1,0 +1,49 @@
+---
+- name: Ansible recipe to shutdown remote host 
+  hosts: "{{ tiles }}"
+  ignore_unreachable: yes
+  become: yes
+  become_method: sudo
+  vars:
+    pdmsg: "Rebooting machine in {{ timeout_seconds | string }} seconds"
+  
+  tasks:
+  - debug:
+      msg: "The 'pdmsg' variable contains an {{ pdmsg | type_debug }}"
+
+  - name: "Cancel shutdown (conditional)"
+    block:
+    - name: "Run shutdown -c on remote host"
+      become: true
+      become_user: root
+      shell: 'shutdown -c'
+
+    when: action_to_take == "cancel"
+
+  - name: "Powerdown"
+    block:
+    - name: "Powerdown after {{ timeout_seconds | string }} seconds"
+      community.general.shutdown:
+        delay: "{{ timeout_seconds }}"
+        msg: "Powering down machine in {{ timeout_seconds | string }} seconds"
+      when: timeout_seconds != 0
+    - name: "Powerdown immediately"
+      community.general.shutdown:
+
+      when: timeout_seconds == 0
+
+    when: action_to_take == "shutdown"
+
+  - name: "Reboot"
+    block:
+    - name: "Reboot after {{ timeout_seconds | string }} seconds and wait until back up"
+      ansible.builtin.reboot:
+        pre_reboot_delay: "{{ timeout_seconds }}"
+        msg: "Rebooting machine in {{ timeout_seconds | string }} seconds"
+      when: timeout_seconds != 0
+    - name: "Reboot immediately and wait until back online"
+      ansible.builtin.reboot:
+
+      when: timeout_seconds == 0
+
+    when: action_to_take == "reboot"
