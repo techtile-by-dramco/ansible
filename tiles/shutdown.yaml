@@ -4,30 +4,15 @@
   ignore_unreachable: yes
   become: yes
   become_method: sudo
-  vars:
-    pdmsg: "Rebooting machine in {{ timeout_seconds | string }} seconds"
-  
-  tasks:
-  - debug:
-      msg: "The 'pdmsg' variable contains an {{ pdmsg | type_debug }}"
 
-  - name: "Cancel shutdown (conditional)"
+  - name: "Shutdown"
     block:
-    - name: "Run shutdown -c on remote host"
-      become: true
-      become_user: root
-      shell: 'shutdown -c'
-
-    when: action_to_take == "cancel"
-
-  - name: "Powerdown"
-    block:
-    - name: "Powerdown after {{ timeout_seconds | string }} seconds"
+    - name: "Shutdown after {{ timeout_seconds | string }} seconds"
       community.general.shutdown:
         delay: "{{ timeout_seconds }}"
-        msg: "Powering down machine in {{ timeout_seconds | string }} seconds"
+        msg: "Shutting down machine in {{ timeout_seconds | string }} seconds"
       when: timeout_seconds != 0
-    - name: "Powerdown immediately"
+    - name: "Shutdown immediately"
       community.general.shutdown:
 
       when: timeout_seconds == 0
