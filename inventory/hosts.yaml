@@ -10,6 +10,8 @@ all:
       access_ip: 192.108.0.1  
     REF:
       ansible_host: rpi-ref.local
+    PILOT:
+      ansible_host: rpi-pilot.local
     T01:
       ansible_host: rpi-t01.local
     T02:
