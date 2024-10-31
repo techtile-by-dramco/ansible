@@ -10,8 +10,6 @@ server_dir = os.path.dirname(os.path.abspath(__file__))
 # Navigate one folder back to reach the parent directory
 exp_dir = os.path.abspath(os.path.join(server_dir, os.pardir))
 
-import ansible_runner
-
 #   INFO
 server_user_name = "techtile"
 inventory=f"/home/{server_user_name}/ansible/inventory/hosts.yaml"
@@ -22,6 +20,7 @@ action = 1  # ON
 
 sys.path.append("./support")
 
+# make sure to set the secrets!
 from support import secrets
 
 from support import midspan_support_class
