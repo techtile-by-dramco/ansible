@@ -1,4 +1,4 @@
 *.npy
 
 support/__pycache__
-support/__pycache__/*
+support/__pycache__/*.*
