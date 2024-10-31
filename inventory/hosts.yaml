@@ -3,11 +3,66 @@ all:
   vars:
     ansible_user: pi
     ansible_python_interpreter: /usr/bin/python3
+  midspans:
+    midspan-001:
+      hostname : techtile-midspan-01
+      ip : 192.108.0.4
+      type : PD-9624GC
+      label : MS1
+      nr-ports : 24
+    midspan-002:
+      hostname: techtile-midspan-02
+      ip: 192.108.0.5
+      type: PD-9624GC
+      label: MS2
+      nr-ports: 24
+    midspan-003:
+      hostname: techtile-midspan-03
+      ip: 192.108.0.6
+      type: PD-9624GC
+      label: MS3
+      nr-ports: 24
+    midspan-004:
+      hostname: techtile-midspan-04
+      ip: 192.108.0.7
+      type: PD-9624GC
+      label: MS4
+      nr-ports: 24
+    midspan-005:
+      hostname: techtile-midspan-05
+      ip: 192.108.0.8
+      type: PD-9612GC
+      label: MS5
+      nr-ports: 12
+    midspan-006:
+      hostname: techtile-midspan-06
+      ip: 192.108.0.9
+      type: PD-9612GC
+      label: MS6
+      nr-ports: 12
+    midspan-007:
+      hostname: techtile-midspan-07
+      ip: 192.108.0.10
+      type: PD-9612GC
+      label: MS7
+      nr-ports: 12
+    midspan-08:
+      hostname: techtile-midspan-08
+      ip: 192.108.0.11
+      type: PD-9612GC
+      label: MS8
+      nr-ports: 12
+    midspan-009:
+      hostname: techtile-midspan-09
+      ip: 192.108.0.12
+      type: PD-9612GC
+      label: MS9
+      nr-ports: 12
   hosts:
     Techtile:
       ansible_host: techtile-server
       ip: 192.108.0.1  
-      access_ip: 192.108.0.1  
+      access_ip: 192.108.0.1
     REF:
       ansible_host: rpi-ref.local
     PILOT:
@@ -22,44 +77,84 @@ all:
       ansible_host: rpi-t04.local
     G01:
       ansible_host: rpi-g01.local
+      midspan: midspan-004
+      poe-port: 1
     G02:
       ansible_host: rpi-g02.local
+      midspan: midspan-004
+      poe-port: 2
     G03:
       ansible_host: rpi-g03.local
+      midspan: midspan-004
+      poe-port: 3
     G04:
       ansible_host: rpi-g04.local
+      midspan: midspan-004
+      poe-port: 4
     G05:
       ansible_host: rpi-g05.local
+      midspan: midspan-005
+      poe-port: 1
     G06:
       ansible_host: rpi-g06.local
+      midspan: midspan-005
+      poe-port: 2
     G07:
       ansible_host: rpi-g07.local
+      midspan: midspan-005
+      poe-port: 3
     G08:
       ansible_host: rpi-g08.local
+      midspan: midspan-005
+      poe-port: 4
     G09:
       ansible_host: rpi-g09.local
+      midspan: midspan-005
+      poe-port: 5
     G10:
       ansible_host: rpi-g10.local
+      midspan: midspan-005
+      poe-port: 6
     G11:
       ansible_host: rpi-g11.local
+      midspan: midspan-005
+      poe-port: 7
     G12:
       ansible_host: rpi-g12.local
+      midspan: midspan-005
+      poe-port: 8
     G13:
       ansible_host: rpi-g13.local
+      midspan: midspan-005
+      poe-port: 9
     G14:
-      ansible_host: rpi-g14.local
+      ansible_hot: rpi-g14.local
+      midspan: midspan-005
+      poe-port: 10
     G15:
       ansible_host: rpi-g15.local
+      midspan: midspan-006
+      poe-port: 1
     G16:
       ansible_host: rpi-g16.local
+      midspan: midspan-006
+      poe-port: 2
     G17:
       ansible_host: rpi-g17.local
+      midspan: midspan-006
+      poe-port: 3
     G18:
       ansible_host: rpi-g18.local
+      midspan: midspan-006
+      poe-port: 4
     G19:
       ansible_host: rpi-g19.local
+      midspan: midspan-006
+      poe-port: 5
     G20:
       ansible_host: rpi-g20.local
+      midspan: midspan-006
+      poe-port: 6
     F01:
       ansible_host: rpi-f01.local
     F02:
