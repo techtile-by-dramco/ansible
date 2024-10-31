@@ -13,15 +13,15 @@ import time
 import ansible_runner
 
 #   INFO
-server_user_name = "jarne"
+server_user_name = "techtile"
 ansible_yaml_file = "ping.yaml"
-tiles = "ceiling"
+tiles = "G02"
 
 if __name__ == '__main__':
 
     #   Check or copy files to the clients
     r = ansible_runner.run(
         inventory=f"/home/{server_user_name}/ansible/inventory/hosts.yaml",
-        playbook=f"/home/{server_user_name}/ansible/{ansible_yaml_file}",
+        playbook=f"/home/{server_user_name}/ansible/general/{ansible_yaml_file}",
         extravars={"tiles": f"{tiles}"}
     )
