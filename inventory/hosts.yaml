@@ -3,61 +3,61 @@ all:
   vars:
     ansible_user: pi
     ansible_python_interpreter: /usr/bin/python3
-  midspans:
-    midspan-001:
-      hostname : techtile-midspan-01
-      ip : 192.108.0.4
-      type : PD-9624GC
-      label : MS1
-      nr-ports : 24
-    midspan-002:
-      hostname: techtile-midspan-02
-      ip: 192.108.0.5
-      type: PD-9624GC
-      label: MS2
-      nr-ports: 24
-    midspan-003:
-      hostname: techtile-midspan-03
-      ip: 192.108.0.6
-      type: PD-9624GC
-      label: MS3
-      nr-ports: 24
-    midspan-004:
-      hostname: techtile-midspan-04
-      ip: 192.108.0.7
-      type: PD-9624GC
-      label: MS4
-      nr-ports: 24
-    midspan-005:
-      hostname: techtile-midspan-05
-      ip: 192.108.0.8
-      type: PD-9612GC
-      label: MS5
-      nr-ports: 12
-    midspan-006:
-      hostname: techtile-midspan-06
-      ip: 192.108.0.9
-      type: PD-9612GC
-      label: MS6
-      nr-ports: 12
-    midspan-007:
-      hostname: techtile-midspan-07
-      ip: 192.108.0.10
-      type: PD-9612GC
-      label: MS7
-      nr-ports: 12
-    midspan-08:
-      hostname: techtile-midspan-08
-      ip: 192.108.0.11
-      type: PD-9612GC
-      label: MS8
-      nr-ports: 12
-    midspan-009:
-      hostname: techtile-midspan-09
-      ip: 192.108.0.12
-      type: PD-9612GC
-      label: MS9
-      nr-ports: 12
+    midspans:
+      midspan-001:
+        hostname : techtile-midspan-01
+        ip : 192.108.0.4
+        type : PD-9624GC
+        label : MS1
+        nr-ports : 24
+      midspan-002:
+        hostname: techtile-midspan-02
+        ip: 192.108.0.5
+        type: PD-9624GC
+        label: MS2
+        nr-ports: 24
+      midspan-003:
+        hostname: techtile-midspan-03
+        ip: 192.108.0.6
+        type: PD-9624GC
+        label: MS3
+        nr-ports: 24
+      midspan-004:
+        hostname: techtile-midspan-04
+        ip: 192.108.0.7
+        type: PD-9624GC
+        label: MS4
+        nr-ports: 24
+      midspan-005:
+        hostname: techtile-midspan-05
+        ip: 192.108.0.8
+        type: PD-9612GC
+        label: MS5
+        nr-ports: 12
+      midspan-006:
+        hostname: techtile-midspan-06
+        ip: 192.108.0.9
+        type: PD-9612GC
+        label: MS6
+        nr-ports: 12
+      midspan-007:
+        hostname: techtile-midspan-07
+        ip: 192.108.0.10
+        type: PD-9612GC
+        label: MS7
+        nr-ports: 12
+      midspan-08:
+        hostname: techtile-midspan-08
+        ip: 192.108.0.11
+        type: PD-9612GC
+        label: MS8
+        nr-ports: 12
+      midspan-009:
+        hostname: techtile-midspan-09
+        ip: 192.108.0.12
+        type: PD-9612GC
+        label: MS9
+        nr-ports: 12
   hosts:
     Techtile:
       ansible_host: techtile-server
