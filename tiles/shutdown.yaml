@@ -4,13 +4,15 @@
   ignore_unreachable: yes
   become: yes
   become_method: sudo
-
+  
+  tasks:
   - name: "Shutdown"
     block:
     - name: "Shutdown after {{ timeout_seconds | string }} seconds"
       community.general.shutdown:
         delay: "{{ timeout_seconds }}"
         msg: "Shutting down machine in {{ timeout_seconds | string }} seconds"
+      
       when: timeout_seconds != 0
     - name: "Shutdown immediately"
       community.general.shutdown:
@@ -25,6 +27,7 @@
       ansible.builtin.reboot:
         pre_reboot_delay: "{{ timeout_seconds }}"
         msg: "Rebooting machine in {{ timeout_seconds | string }} seconds"
+      
       when: timeout_seconds != 0
     - name: "Reboot immediately and wait until back online"
       ansible.builtin.reboot:
