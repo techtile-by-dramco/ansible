@@ -38,8 +38,8 @@ class config_support_class:
             if midspanName != '':
                 # Now look-up midspanIp
                 try:
-                    midspanIp = self.__techtileConfig["all"]["midspans"][midspanName]["ip"]
-                    nrOfPorts = self.__techtileConfig["all"]["midspans"][midspanName]["nr-ports"]
+                    midspanIp = self.__techtileConfig["all"]["vars"]["midspans"][midspanName]["ip"]
+                    nrOfPorts = self.__techtileConfig["all"]["vars"]["midspans"][midspanName]["nr-ports"]
                 except KeyError:
                     print('ERROR: midspan with name "' + midspanName + '" was specified for host "' + host + '"')
                     print('       in the "' + self.__configFile + '" file. However, configuration for this midspan is')
