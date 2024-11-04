@@ -1,22 +1,31 @@
-# Reboot
-
-# *** Includes ***
-import os
-import sys
-
-# Get the current directory of the script
-server_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Navigate one folder back to reach the parent directory
-exp_dir = os.path.abspath(os.path.join(server_dir, os.pardir))
+# Script to control the PoE power to the hosts. 
 
 #   INFO
 server_user_name = "techtile"
 inventory=f"/home/{server_user_name}/ansible/inventory/hosts.yaml"
 
-tiles = "wallEast"
+tiles = "G01"
 #action = 0  # OFF
-action = 1  # ON
+action = 0  # ON
+
+# *** Includes ***
+import sys
+
+try:
+    import importlib
+    import importlib.util
+    import importlib.machinery
+
+    try:
+        PY_MAGIC_NUMBER = importlib.util.MAGIC_NUMBER
+        SOURCE_SUFFIXES = importlib.machinery.SOURCE_SUFFIXES
+        BYTECODE_SUFFIXES = importlib.machinery.BYTECODE_SUFFIXES
+
+    except Exception:
+        raise ImportError()
+
+except ImportError:
+    print("Shit just hit the fan.")
 
 sys.path.append("./support")
 
