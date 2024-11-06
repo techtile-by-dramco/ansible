@@ -62,6 +62,9 @@ class config_support_class:
     ''' Utility functions
     '''
     def __testIfGroup(self, host: str):
+        if isinstance(host, list):
+            return host
+
         # First look-up host information
         try:
             midspanName = self.__techtileConfig["all"]["hosts"][host]["midspan"]
