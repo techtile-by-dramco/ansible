@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     #   Check or copy files to the clients
     r = ansible_runner.run(
-        inventory=f"/home/{server_user_name}/ansible/inventory/hosts.yaml",
-        playbook=f"/home/{server_user_name}/ansible/{ansible_yaml_file}",
+        inventory=f"{exp_dir}/inventory/hosts.yaml",
+        playbook=f"{exp_dir}/{ansible_yaml_file}",
         extravars={"tiles": f"{tiles}"}
     )
