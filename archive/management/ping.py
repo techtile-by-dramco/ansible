@@ -12,14 +12,16 @@ exp_dir = os.path.abspath(os.path.join(server_dir, os.pardir))
 import time 
 import ansible_runner
 
-print(exp_dir)
-
 #   INFO
 server_user_name = "jarne"
 ansible_yaml_file = "ping.yaml"
 tiles = "ceiling"
 
 if __name__ == '__main__':
+
+    print(exp_dir)
+
+    exit()
 
     #   Check or copy files to the clients
     r = ansible_runner.run(
